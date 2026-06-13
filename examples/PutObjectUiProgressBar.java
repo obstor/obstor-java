@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.PutObjectArgs;
+import net.obstor.errors.ObstorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -55,17 +55,17 @@ public class PutObjectUiProgressBar extends JFrame {
    * asynchronously updating the progress bar UI as well. This function is involed when user clicks
    * on the UI
    */
-  private void uploadFile(String filename) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  private void uploadFile(String filename) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -77,7 +77,7 @@ public class PutObjectUiProgressBar extends JFrame {
           new ProgressMonitorInputStream(this, "Uploading... " + file.getAbsolutePath(), bis);
 
       pmis.getProgressMonitor().setMillisToPopup(10);
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder().bucket("bank").object("my-object").stream(
                   pmis, (long) pmis.available(), null)
               .build());
@@ -116,7 +116,7 @@ public class PutObjectUiProgressBar extends JFrame {
     }
   }
 
-  /** MinioClient.putObjectProgressBar() example. */
+  /** ObstorClient.putObjectProgressBar() example. */
   public static void main(String[] args) {
     PutObjectUiProgressBar demo = new PutObjectUiProgressBar();
     demo.go();

@@ -1,9 +1,9 @@
 import com.google.common.io.ByteStreams;
-import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
-import io.minio.errors.MinioException;
+import net.obstor.GetObjectArgs;
+import net.obstor.ObstorClient;
+import net.obstor.StatObjectArgs;
+import net.obstor.StatObjectResponse;
+import net.obstor.errors.ObstorException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,10 +13,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class GetObjectResume {
-  public static void main(String[] args) throws IOException, MinioException {
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  public static void main(String[] args) throws IOException, ObstorException {
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
@@ -26,7 +26,7 @@ public class GetObjectResume {
     if (Files.exists(path)) fileSize = Files.size(path);
 
     StatObjectResponse stat =
-        minioClient.statObject(
+        obstorClient.statObject(
             StatObjectArgs.builder().bucket("my-bucket").object("my-object").build());
 
     if (fileSize == stat.size()) {
@@ -39,7 +39,7 @@ public class GetObjectResume {
     }
 
     InputStream stream =
-        minioClient.getObject(
+        obstorClient.getObject(
             GetObjectArgs.builder()
                 .bucket("my-bucket")
                 .object("my-object")

@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.RemoveObjectsArgs;
-import io.minio.Result;
-import io.minio.errors.MinioException;
-import io.minio.messages.DeleteRequest;
-import io.minio.messages.DeleteResult;
+import net.obstor.ObstorClient;
+import net.obstor.RemoveObjectsArgs;
+import net.obstor.Result;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.DeleteRequest;
+import net.obstor.messages.DeleteResult;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RemoveObjects {
-  /** MinioClient.removeObject() example removing multiple objects. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.removeObject() example removing multiple objects. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -45,7 +45,7 @@ public class RemoveObjects {
     objects.add(new DeleteRequest.Object("my-object2"));
     objects.add(new DeleteRequest.Object("my-object3"));
     Iterable<Result<DeleteResult.Error>> results =
-        minioClient.removeObjects(
+        obstorClient.removeObjects(
             RemoveObjectsArgs.builder().bucket("my-bucket").objects(objects).build());
     for (Result<DeleteResult.Error> result : results) {
       DeleteResult.Error error = result.get();

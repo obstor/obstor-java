@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-import io.minio.GetBucketVersioningArgs;
-import io.minio.MinioClient;
-import io.minio.errors.MinioException;
-import io.minio.messages.VersioningConfiguration;
+import net.obstor.GetBucketVersioningArgs;
+import net.obstor.ObstorClient;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.VersioningConfiguration;
 
 public class GetBucketVersioning {
-  /** MinioClient.getBucketVersioning() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.getBucketVersioning() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
 
     VersioningConfiguration config =
-        minioClient.getBucketVersioning(
+        obstorClient.getBucketVersioning(
             GetBucketVersioningArgs.builder().bucket("my-bucket").build());
     System.out.println("Versioning on bucket 'my-bucket' is " + config.status());
   }

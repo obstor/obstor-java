@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-import io.minio.ComposeObjectArgs;
-import io.minio.MinioClient;
-import io.minio.ServerSideEncryption;
-import io.minio.SourceObject;
-import io.minio.errors.MinioException;
+import net.obstor.ComposeObjectArgs;
+import net.obstor.ObstorClient;
+import net.obstor.ServerSideEncryption;
+import net.obstor.SourceObject;
+import net.obstor.errors.ObstorException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.crypto.spec.SecretKeySpec;
 
 public class ComposeObject {
-  /** MinioClient.composeObject() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.composeObject() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -47,7 +47,7 @@ public class ComposeObject {
       sources.add(SourceObject.builder().bucket("my-bucket-one").object("my-object-one").build());
       sources.add(SourceObject.builder().bucket("my-bucket-two").object("my-object-two").build());
 
-      minioClient.composeObject(
+      obstorClient.composeObject(
           ComposeObjectArgs.builder()
               .bucket("my-destination-bucket")
               .object("my-destination-object")
@@ -73,7 +73,7 @@ public class ComposeObject {
       sources.add(
           SourceObject.builder().bucket("my-bucket").object("my-object-two").ssec(srcSsec).build());
 
-      minioClient.composeObject(
+      obstorClient.composeObject(
           ComposeObjectArgs.builder()
               .bucket("my-destination-bucket")
               .object("my-destination-object")

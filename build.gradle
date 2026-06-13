@@ -28,7 +28,7 @@ plugins {
 /* Root project definitions */
 
 allprojects {
-    group = 'io.minio'
+    group = 'net.obstor'
     version = '9.0.3'
     if (!project.hasProperty('release')) {
         version += '-DEV'
@@ -127,14 +127,14 @@ project(':api') {
     apply plugin: 'com.gradleup.shadow'
 
     base {
-        archivesName = 'minio'
+        archivesName = 'obstor'
     }
 
     jar {
         manifest {
             attributes('Implementation-Title': base.archivesName.get(),
                        'Implementation-Version': archiveVersion.get(),
-                       'Built-By': 'MinIO, inc',
+                       'Built-By': 'PGG, Inc',
                        'Built-JDK': System.getProperty('java.version'),
                        'Source-Compatibility': java.sourceCompatibility,
                        'Target-Compatibility': java.targetCompatibility)
@@ -178,20 +178,20 @@ project(':api') {
 
     publishing {
         publications {
-            minioJava(MavenPublication) {
+            obstorJava(MavenPublication) {
                 artifactId = base.archivesName.get()
                 from components.java
                 pom {
-                    name = 'minio'
+                    name = 'obstor'
                     packaging = 'jar'
-                    description = 'MinIO Java SDK for Amazon S3 Compatible Cloud Storage'
-                    url = 'https://github.com/minio/minio-java'
+                    description = 'Obstor Java SDK for Amazon S3 Compatible Cloud Storage'
+                    url = 'https://github.com/obstor/obstor-java'
                     inceptionYear = '2015'
 
                     scm {
-                        connection = 'scm:git:git@github.com:minio/minio-java.git'
-                        developerConnection = 'scm:git:git@github.com:minio/minio-java.git'
-                        url = 'http://github.com/minio/minio-java'
+                        connection = 'scm:git:git@github.com:obstor/obstor-java.git'
+                        developerConnection = 'scm:git:git@github.com:obstor/obstor-java.git'
+                        url = 'http://github.com/obstor/obstor-java'
                     }
 
                     licenses {
@@ -203,9 +203,9 @@ project(':api') {
 
                     developers {
                         developer {
-                            id = 'minio'
-                            name = 'MinIO Inc.'
-                            email = 'dev@min.io'
+                            id = 'obstor'
+                            name = 'PGG Inc.'
+                            email = 'oss@pgg.net'
                         }
                     }
                 }
@@ -229,7 +229,7 @@ project(':api') {
         required {
             gradle.taskGraph.allTasks.any { it.name.contains('LocalMavenWithChecksums') }
         }
-        sign publishing.publications.minioJava
+        sign publishing.publications.obstorJava
     }
 }
 
@@ -241,7 +241,7 @@ project(':adminapi') {
     apply plugin: 'base'
 
     base {
-        archivesName = 'minio-admin'
+        archivesName = 'obstor-admin'
     }
 
     dependencies {
@@ -254,7 +254,7 @@ project(':adminapi') {
         manifest {
             attributes('Implementation-Title': base.archivesName.get(),
                        'Implementation-Version': archiveVersion.get(),
-                       'Built-By': 'MinIO, inc',
+                       'Built-By': 'PGG, Inc',
                        'Built-JDK': System.getProperty('java.version'),
                        'Source-Compatibility': java.sourceCompatibility,
                        'Target-Compatibility': java.targetCompatibility)
@@ -298,20 +298,20 @@ project(':adminapi') {
 
     publishing {
         publications {
-            minioJava(MavenPublication) {
+            obstorJava(MavenPublication) {
                 artifactId = base.archivesName.get()
                 from components.java
                 pom {
-                    name = 'minio'
+                    name = 'obstor'
                     packaging = 'jar'
-                    description = 'MinIO Java SDK for Amazon S3 Compatible Cloud Storage'
-                    url = 'https://github.com/minio/minio-java'
+                    description = 'Obstor Java SDK for Amazon S3 Compatible Cloud Storage'
+                    url = 'https://github.com/obstor/obstor-java'
                     inceptionYear = '2015'
 
                     scm {
-                        connection = 'scm:git:git@github.com:minio/minio-java.git'
-                        developerConnection = 'scm:git:git@github.com:minio/minio-java.git'
-                        url = 'http://github.com/minio/minio-java'
+                        connection = 'scm:git:git@github.com:obstor/obstor-java.git'
+                        developerConnection = 'scm:git:git@github.com:obstor/obstor-java.git'
+                        url = 'http://github.com/obstor/obstor-java'
                     }
 
                     licenses {
@@ -323,9 +323,9 @@ project(':adminapi') {
 
                     developers {
                         developer {
-                            id = 'minio'
-                            name = 'MinIO Inc.'
-                            email = 'dev@min.io'
+                            id = 'obstor'
+                            name = 'PGG Inc.'
+                            email = 'oss@pgg.net'
                         }
                     }
                 }
@@ -349,7 +349,7 @@ project(':adminapi') {
         required {
             gradle.taskGraph.allTasks.any { it.name.contains('LocalMavenWithChecksums') }
         }
-        sign publishing.publications.minioJava
+        sign publishing.publications.obstorJava
     }
 }
 
@@ -395,7 +395,7 @@ project(':functional') {
         mainClass = 'FunctionalTest'
         classpath = sourceSets.main.runtimeClasspath
 
-        def endpoint = rootProject.findProperty('endpoint') ?: 'https://play.min.io:9000'
+        def endpoint = rootProject.findProperty('endpoint') ?: 'https://demo.obstor.net:9000'
         def accessKey = rootProject.findProperty('accessKey') ?: 'Q3AM3UQ867SPQQA43P2F'
         def secretKey = rootProject.findProperty('secretKey') ?: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
         def region = rootProject.findProperty('region') ?: 'us-east-1'
@@ -410,8 +410,8 @@ project(':functional') {
 
 jreleaser {
     project {
-        copyright = 'MinIO Inc.'
-        description = 'MinIO Java SDK for Amazon S3 Compatible Cloud Storage'
+        copyright = 'PGG Inc.'
+        description = 'Obstor Java SDK for Amazon S3 Compatible Cloud Storage'
     }
 
     signing {

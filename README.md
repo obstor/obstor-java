@@ -1,8 +1,8 @@
-# MinIO Java SDK for Amazon S3 Compatible Cloud Storage [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io)
+# Obstor Java SDK for Amazon S3 Compatible Cloud Storage
 
-MinIO Java SDK is Simple Storage Service (aka S3) client to perform bucket and object operations to any Amazon S3 compatible object storage service.
+Obstor Java SDK is Simple Storage Service (aka S3) client to perform bucket and object operations to any Amazon S3 compatible object storage service.
 
-For a complete list of APIs and examples, please take a look at the [Java Client API Reference](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/java/api/) documentation.
+For a complete list of APIs and examples, please take a look at the [Java Client API Reference](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/java/api/) documentation.
 
 ## Minimum Requirements
 Java 1.8 or above.
@@ -10,8 +10,8 @@ Java 1.8 or above.
 ## Maven usage
 ```xml
 <dependency>
-    <groupId>io.minio</groupId>
-    <artifactId>minio</artifactId>
+    <groupId>net.obstor</groupId>
+    <artifactId>obstor</artifactId>
     <version>9.0.2</version>
 </dependency>
 ```
@@ -19,12 +19,12 @@ Java 1.8 or above.
 ## Gradle usage
 ```
 dependencies {
-    implementation("io.minio:minio:9.0.2")
+    implementation("net.obstor:obstor:9.0.2")
 }
 ```
 
 ## JAR download
-The latest JAR can be downloaded from [here](https://repo1.maven.org/maven2/io/minio/minio/9.0.2/)
+The latest JAR can be downloaded from [here](https://repo1.maven.org/maven2/io/obstor/obstor/9.0.2/)
 
 ## Quick Start Example - File Uploader
 This example program connects to an object storage server, makes a bucket on the server and then uploads a file to the bucket.
@@ -37,15 +37,15 @@ You need three items in order to connect to an object storage server.
 | Access Key | Access key (aka user ID) of an account in the S3 service.  |
 | Secret Key | Secret key (aka password) of an account in the S3 service. |
 
-This example uses MinIO server playground [https://play.min.io](https://play.min.io). Feel free to use this service for test and development.
+This example uses Obstor server playground [https://demo.obstor.net](https://demo.obstor.net). Feel free to use this service for test and development.
 
 ### FileUploader.java
 ```java
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.UploadObjectArgs;
-import io.minio.errors.MinioException;
+import net.obstor.BucketExistsArgs;
+import net.obstor.MakeBucketArgs;
+import net.obstor.ObstorClient;
+import net.obstor.UploadObjectArgs;
+import net.obstor.errors.ObstorException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -54,26 +54,26 @@ public class FileUploader {
   public static void main(String[] args)
       throws IOException, NoSuchAlgorithmException, InvalidKeyException {
     try {
-      // Create a minioClient with the MinIO server playground, its access key and secret key.
-      MinioClient minioClient =
-          MinioClient.builder()
-              .endpoint("https://play.min.io")
+      // Create a obstorClient with the Obstor server playground, its access key and secret key.
+      ObstorClient obstorClient =
+          ObstorClient.builder()
+              .endpoint("https://demo.obstor.net")
               .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
               .build();
 
       // Make 'asiatrip' bucket if not exist.
       boolean found =
-          minioClient.bucketExists(BucketExistsArgs.builder().bucket("asiatrip").build());
+          obstorClient.bucketExists(BucketExistsArgs.builder().bucket("asiatrip").build());
       if (!found) {
         // Make a new bucket called 'asiatrip'.
-        minioClient.makeBucket(MakeBucketArgs.builder().bucket("asiatrip").build());
+        obstorClient.makeBucket(MakeBucketArgs.builder().bucket("asiatrip").build());
       } else {
         System.out.println("Bucket 'asiatrip' already exists.");
       }
 
       // Upload '/home/user/Photos/asiaphotos.zip' as object name 'asiaphotos-2015.zip' to bucket
       // 'asiatrip'.
-      minioClient.uploadObject(
+      obstorClient.uploadObject(
           UploadObjectArgs.builder()
               .bucket("asiatrip")
               .object("asiaphotos-2015.zip")
@@ -82,7 +82,7 @@ public class FileUploader {
       System.out.println(
           "'/home/user/Photos/asiaphotos.zip' is successfully uploaded as "
               + "object 'asiaphotos-2015.zip' to bucket 'asiatrip'.");
-    } catch (MinioException e) {
+    } catch (ObstorException e) {
       System.out.println("Error occurred: " + e);
       System.out.println("HTTP trace: " + e.httpTrace());
     }
@@ -92,26 +92,26 @@ public class FileUploader {
 
 #### Compile FileUploader
 ```sh
-$ javac -cp minio-9.0.2-all.jar FileUploader.java
+$ javac -cp obstor-9.0.2-all.jar FileUploader.java
 ```
 
 #### Run FileUploader
 ```sh
-$ java -cp minio-9.0.2-all.jar:. FileUploader
+$ java -cp obstor-9.0.2-all.jar:. FileUploader
 '/home/user/Photos/asiaphotos.zip' is successfully uploaded as object 'asiaphotos-2015.zip' to bucket 'asiatrip'.
 
-$ mc ls play/asiatrip/
+$ mc ls demo/asiatrip/
 [2016-06-02 18:10:29 PDT]  82KiB asiaphotos-2015.zip
 ```
 
 ## More References
-* [Java Client API Reference](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/java/api/)
-* [Javadoc](https://minio-java.min.io/)
-* [Examples](https://github.com/minio/minio-java/tree/release/examples)
+* [Java Client API Reference](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/java/api/)
+* [Javadoc](https://obstor.net/docs/java)
+* [Examples](https://github.com/obstor/obstor-java/tree/release/examples)
 
 ## Explore Further
-* [Complete Documentation](https://docs.min.io/enterprise/aistor-object-store/)
-* [Build your own Photo API Service - Full Application Example ](https://github.com/minio/minio-java-rest-example)
+* [Complete Documentation](https://obstor.net/docs/enterprise/obstor-object-store/)
+* [Build your own Photo API Service - Full Application Example ](https://github.com/obstor/obstor-java-rest-example)
 
 ## Contribute
-Please refer [Contributors Guide](https://github.com/minio/minio-java/blob/release/CONTRIBUTING.md)
+Please refer [Contributors Guide](https://github.com/obstor/obstor-java/blob/release/CONTRIBUTING.md)

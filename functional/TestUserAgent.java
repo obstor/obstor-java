@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import io.minio.BucketExistsArgs;
-import io.minio.MinioClient;
+import net.obstor.BucketExistsArgs;
+import net.obstor.ObstorClient;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -25,7 +25,7 @@ import java.util.Scanner;
     value = "THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION")
 public class TestUserAgent {
   public static void main(String[] args) throws Exception {
-    MinioClient client = MinioClient.builder().endpoint("http://httpbin.org").build();
+    ObstorClient client = ObstorClient.builder().endpoint("http://httpbin.org").build();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     client.traceOn(baos);
     client.bucketExists(BucketExistsArgs.builder().bucket("any-bucket-name-works").build());

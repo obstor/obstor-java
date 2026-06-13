@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.SetObjectLockConfigurationArgs;
-import io.minio.errors.MinioException;
-import io.minio.messages.ObjectLockConfiguration;
-import io.minio.messages.RetentionMode;
+import net.obstor.ObstorClient;
+import net.obstor.SetObjectLockConfigurationArgs;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.ObjectLockConfiguration;
+import net.obstor.messages.RetentionMode;
 
 public class SetObjectLockConfiguration {
-  /** MinioClient.setObjectLockConfiguration() exanple. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.setObjectLockConfiguration() exanple. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -42,7 +42,7 @@ public class SetObjectLockConfiguration {
         new ObjectLockConfiguration(
             RetentionMode.COMPLIANCE, new ObjectLockConfiguration.RetentionDurationDays(100));
 
-    minioClient.setObjectLockConfiguration(
+    obstorClient.setObjectLockConfiguration(
         SetObjectLockConfigurationArgs.builder()
             .bucket("my-lock-enabled-bucketname")
             .config(config)

@@ -71,12 +71,12 @@ jobs:
           cd functional
           curl -sSfLO https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.11.4/junit-platform-console-standalone-1.11.4.jar
           curl -sSfLO https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.9.8/spotbugs-annotations-4.9.8.jar
-          javac -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/minio-${DEV_VERSION}-all.jar:../adminapi/build/libs/minio-admin-${DEV_VERSION}-all.jar:. FunctionalTest.java
-          java -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/minio-${DEV_VERSION}-all.jar:../adminapi/build/libs/minio-admin-${DEV_VERSION}-all.jar:. FunctionalTest
-          javac -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/minio-${DEV_VERSION}-all.jar:. ./TestUserAgent.java
-          java -Dversion=${DEV_VERSION} -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/minio-${DEV_VERSION}-all.jar:. TestUserAgent
-          javac -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/minio-${RELEASE_VERSION}-all.jar:. ./TestUserAgent.java
-          java -Dversion=${RELEASE_VERSION} -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/minio-${RELEASE_VERSION}-all.jar:. TestUserAgent
+          javac -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/obstor-${DEV_VERSION}-all.jar:../adminapi/build/libs/obstor-admin-${DEV_VERSION}-all.jar:. FunctionalTest.java
+          java -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/obstor-${DEV_VERSION}-all.jar:../adminapi/build/libs/obstor-admin-${DEV_VERSION}-all.jar:. FunctionalTest
+          javac -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/obstor-${DEV_VERSION}-all.jar:. ./TestUserAgent.java
+          java -Dversion=${DEV_VERSION} -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/obstor-${DEV_VERSION}-all.jar:. TestUserAgent
+          javac -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/obstor-${RELEASE_VERSION}-all.jar:. ./TestUserAgent.java
+          java -Dversion=${RELEASE_VERSION} -cp spotbugs-annotations-4.9.8.jar:junit-platform-console-standalone-1.11.4.jar:../api/build/libs/obstor-${RELEASE_VERSION}-all.jar:. TestUserAgent
 
       - name: Run tests on Windows
         if: matrix.os == 'windows-latest'
@@ -84,5 +84,5 @@ jobs:
           cd functional
           curl -sSfLO https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.11.4/junit-platform-console-standalone-1.11.4.jar
           curl -sSfLO https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.9.8/spotbugs-annotations-4.9.8.jar
-          javac -encoding UTF-8 -cp "spotbugs-annotations-4.9.8.jar;junit-platform-console-standalone-1.11.4.jar;../api/build/libs/minio-$Env:DEV_VERSION-all.jar;../adminapi/build/libs/minio-admin-$Env:DEV_VERSION-all.jar;." FunctionalTest.java
-          java -cp "spotbugs-annotations-4.9.8.jar;junit-platform-console-standalone-1.11.4.jar;../api/build/libs/minio-$Env:DEV_VERSION-all.jar;../adminapi/build/libs/minio-admin-$Env:DEV_VERSION-all.jar;." FunctionalTest
+          javac -encoding UTF-8 -cp "spotbugs-annotations-4.9.8.jar;junit-platform-console-standalone-1.11.4.jar;../api/build/libs/obstor-$Env:DEV_VERSION-all.jar;../adminapi/build/libs/obstor-admin-$Env:DEV_VERSION-all.jar;." FunctionalTest.java
+          java -cp "spotbugs-annotations-4.9.8.jar;junit-platform-console-standalone-1.11.4.jar;../api/build/libs/obstor-$Env:DEV_VERSION-all.jar;../adminapi/build/libs/obstor-admin-$Env:DEV_VERSION-all.jar;." FunctionalTest

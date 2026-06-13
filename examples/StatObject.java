@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.ServerSideEncryption;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.ServerSideEncryption;
+import net.obstor.StatObjectArgs;
+import net.obstor.StatObjectResponse;
+import net.obstor.errors.ObstorException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import javax.crypto.KeyGenerator;
 
 public class StatObject {
-  /** MinioClient.statObject() example. */
+  /** ObstorClient.statObject() example. */
   public static void main(String[] args)
-      throws InvalidKeyException, MinioException, NoSuchAlgorithmException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+      throws InvalidKeyException, ObstorException, NoSuchAlgorithmException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -51,7 +51,7 @@ public class StatObject {
     {
       // Get information of an object.
       StatObjectResponse stat =
-          minioClient.statObject(
+          obstorClient.statObject(
               StatObjectArgs.builder().bucket("my-bucket").object("my-object").build());
       System.out.println(stat);
     }
@@ -59,7 +59,7 @@ public class StatObject {
     {
       // Get information of SSE-C encrypted object.
       StatObjectResponse stat =
-          minioClient.statObject(
+          obstorClient.statObject(
               StatObjectArgs.builder()
                   .bucket("my-bucket")
                   .object("my-encrypted-objectname")
@@ -71,7 +71,7 @@ public class StatObject {
     {
       // Get information of a versioned object.
       StatObjectResponse stat =
-          minioClient.statObject(
+          obstorClient.statObject(
               StatObjectArgs.builder()
                   .bucket("my-bucket")
                   .object("my-versioned-objectname")
@@ -83,7 +83,7 @@ public class StatObject {
     {
       // Get information of a SSE-C encrypted versioned object.
       StatObjectResponse stat =
-          minioClient.statObject(
+          obstorClient.statObject(
               StatObjectArgs.builder()
                   .bucket("my-bucket")
                   .object("my-encrypted-versioned-objectname")
@@ -100,7 +100,7 @@ public class StatObject {
       HashMap<String, String> queryParams = new HashMap<>();
       queryParams.put("partNumber", "1");
       StatObjectResponse stat =
-          minioClient.statObject(
+          obstorClient.statObject(
               StatObjectArgs.builder()
                   .bucket("my-bucket")
                   .object("my-object")

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.ServerSideEncryption;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.PutObjectArgs;
+import net.obstor.ServerSideEncryption;
+import net.obstor.errors.ObstorException;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -27,19 +27,19 @@ import java.util.Map;
 import javax.crypto.KeyGenerator;
 
 public class PutObject {
-  /** MinioClient.putObject() example. */
+  /** ObstorClient.putObject() example. */
   public static void main(String[] args)
-      throws InvalidKeyException, MinioException, NoSuchAlgorithmException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+      throws InvalidKeyException, ObstorException, NoSuchAlgorithmException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -78,7 +78,7 @@ public class PutObject {
 
     {
       // Create object 'my-object' in 'my-bucket' with content from byte array.
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -89,7 +89,7 @@ public class PutObject {
 
     {
       // Create object 'my-object' in 'my-bucket' with content from input stream in parallel.
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder().bucket("my-bucket").object("my-object").stream(
                   new ByteArrayInputStream(data), (long) data.length, null)
               .parallelUploads(4)
@@ -106,7 +106,7 @@ public class PutObject {
 
       // Create encrypted object 'my-object' using SSE-C in 'my-bucket' with content from
       // byte array.
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -123,7 +123,7 @@ public class PutObject {
 
       // Create encrypted object 'my-object' using SSE-KMS in 'my-bucket' with content
       // from byte array.
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -138,7 +138,7 @@ public class PutObject {
 
       // Create encrypted object 'my-object' using SSE-S3 in 'my-bucket' with content
       // from byte array.
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -162,7 +162,7 @@ public class PutObject {
 
       // Create object 'my-object' with user metadata and other properties in 'my-bucket'
       // with content from byte array.
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -175,7 +175,7 @@ public class PutObject {
 
     {
       // Create object name ending with '/' (mostly called folder or directory).
-      minioClient.putObject(
+      obstorClient.putObject(
           PutObjectArgs.builder()
               .bucket("my-bucket")
               .object("path/to/")

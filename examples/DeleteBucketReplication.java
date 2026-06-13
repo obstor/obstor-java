@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-import io.minio.DeleteBucketReplicationArgs;
-import io.minio.MinioClient;
-import io.minio.errors.MinioException;
+import net.obstor.DeleteBucketReplicationArgs;
+import net.obstor.ObstorClient;
+import net.obstor.errors.ObstorException;
 
 public class DeleteBucketReplication {
-  /** MinioClient.deleteBucketReplication() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.deleteBucketReplication() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
 
-    minioClient.deleteBucketReplication(
+    obstorClient.deleteBucketReplication(
         DeleteBucketReplicationArgs.builder().bucket("my-bucket").build());
   }
 }

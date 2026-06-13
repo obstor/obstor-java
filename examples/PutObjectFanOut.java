@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.PutObjectFanOutArgs;
-import io.minio.PutObjectFanOutEntry;
-import io.minio.PutObjectFanOutResponse;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.PutObjectFanOutArgs;
+import net.obstor.PutObjectFanOutEntry;
+import net.obstor.PutObjectFanOutResponse;
+import net.obstor.errors.ObstorException;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -26,18 +26,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PutObjectFanOut {
-  /** MinioClient.putObject() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.putObject() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -46,7 +46,7 @@ public class PutObjectFanOut {
     map.put("Project", "Project One");
     map.put("User", "jsmith");
     PutObjectFanOutResponse response =
-        minioClient.putObjectFanOut(
+        obstorClient.putObjectFanOut(
             PutObjectFanOutArgs.builder().bucket("my-bucket").stream(
                     new ByteArrayInputStream("somedata".getBytes(StandardCharsets.UTF_8)), 8)
                 .entries(

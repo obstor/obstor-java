@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.SetBucketCorsArgs;
-import io.minio.errors.MinioException;
-import io.minio.messages.CORSConfiguration;
+import net.obstor.ObstorClient;
+import net.obstor.SetBucketCorsArgs;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.CORSConfiguration;
 import java.util.Arrays;
 
 public class SetBucketCors {
-  /** MinioClient.setBucketCors() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.setBucketCors() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -61,7 +61,7 @@ public class SetBucketCors {
                       )
                 }));
 
-    minioClient.setBucketCors(
+    obstorClient.setBucketCors(
         SetBucketCorsArgs.builder().bucket("my-bucket").config(config).build());
   }
 }

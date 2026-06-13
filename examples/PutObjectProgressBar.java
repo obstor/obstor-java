@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.PutObjectArgs;
+import net.obstor.errors.ObstorException;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,18 +24,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class PutObjectProgressBar {
-  /** MinioClient.putObjectProgressBar() example. */
-  public static void main(String[] args) throws IOException, MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.putObjectProgressBar() example. */
+  public static void main(String[] args) throws IOException, ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -46,7 +46,7 @@ public class PutObjectProgressBar {
     InputStream pis =
         new BufferedInputStream(
             new ProgressStream("Uploading... ", Files.newInputStream(Paths.get("my-filename"))));
-    minioClient.putObject(
+    obstorClient.putObject(
         PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(
                 pis, (long) pis.available(), null)
             .build());

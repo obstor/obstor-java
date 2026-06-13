@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.SetObjectRetentionArgs;
-import io.minio.Time;
-import io.minio.errors.MinioException;
-import io.minio.messages.Retention;
-import io.minio.messages.RetentionMode;
+import net.obstor.ObstorClient;
+import net.obstor.SetObjectRetentionArgs;
+import net.obstor.Time;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.Retention;
+import net.obstor.messages.RetentionMode;
 import java.time.ZonedDateTime;
 
 public class SetObjectRetention {
-  /** MinioClient.setObjectRetention() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.setObjectRetention() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -45,7 +45,7 @@ public class SetObjectRetention {
     Retention config = new Retention(RetentionMode.COMPLIANCE, retentionUntil);
 
     // Set object retention
-    minioClient.setObjectRetention(
+    obstorClient.setObjectRetention(
         SetObjectRetentionArgs.builder()
             .bucket("my-bucket")
             .object("my-object")

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import io.minio.CopyObjectArgs;
-import io.minio.MinioClient;
-import io.minio.ServerSideEncryption;
-import io.minio.SourceObject;
-import io.minio.errors.MinioException;
+import net.obstor.CopyObjectArgs;
+import net.obstor.ObstorClient;
+import net.obstor.ServerSideEncryption;
+import net.obstor.SourceObject;
+import net.obstor.errors.ObstorException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -27,19 +27,19 @@ import java.util.Map;
 import javax.crypto.KeyGenerator;
 
 public class CopyObject {
-  /** MinioClient.copyObject() example. */
+  /** ObstorClient.copyObject() example. */
   public static void main(String[] args)
-      throws InvalidKeyException, MinioException, NoSuchAlgorithmException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+      throws InvalidKeyException, ObstorException, NoSuchAlgorithmException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -64,7 +64,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" by copying from object
       // "my-object" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -78,7 +78,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" by copying from object
       // "my-source-objectname" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -96,7 +96,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" with SSE-KMS server-side
       // encryption by copying from object "my-object" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -111,7 +111,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" with SSE-S3 server-side
       // encryption by copying from object "my-object" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -126,7 +126,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" with SSE-C server-side encryption
       // by copying from object "my-object" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -141,7 +141,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" by copying from SSE-C encrypted
       // object "my-source-objectname" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -160,7 +160,7 @@ public class CopyObject {
     {
       // Create object "my-object" in bucket "my-bucket" with custom headers conditionally
       // by copying from object "my-object" in bucket "my-source-bucketname".
-      minioClient.copyObject(
+      obstorClient.copyObject(
           CopyObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")

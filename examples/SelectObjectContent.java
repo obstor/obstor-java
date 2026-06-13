@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.SelectObjectContentArgs;
-import io.minio.SelectResponseStream;
-import io.minio.errors.MinioException;
-import io.minio.messages.InputSerialization;
-import io.minio.messages.OutputSerialization;
-import io.minio.messages.Stats;
+import net.obstor.ObstorClient;
+import net.obstor.PutObjectArgs;
+import net.obstor.SelectObjectContentArgs;
+import net.obstor.SelectResponseStream;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.InputSerialization;
+import net.obstor.messages.OutputSerialization;
+import net.obstor.messages.Stats;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class SelectObjectContent {
-  /** MinioClient.getObject() example. */
-  public static void main(String[] args) throws IOException, MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.getObject() example. */
+  public static void main(String[] args) throws IOException, ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -50,7 +50,7 @@ public class SelectObjectContent {
                 + "1996,Jeep,Grand Cherokee,\"MUST SELL!\n"
                 + "air, moon roof, loaded\",4799.00\n")
             .getBytes(StandardCharsets.UTF_8);
-    minioClient.putObject(
+    obstorClient.putObject(
         PutObjectArgs.builder()
             .bucket("my-bucket")
             .object("my-object")
@@ -66,7 +66,7 @@ public class SelectObjectContent {
             null, null, null, OutputSerialization.QuoteFields.ASNEEDED, null);
 
     SelectResponseStream stream =
-        minioClient.selectObjectContent(
+        obstorClient.selectObjectContent(
             SelectObjectContentArgs.builder()
                 .bucket("my-bucket")
                 .object("my-objectName")

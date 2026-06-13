@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.SnowballObject;
-import io.minio.UploadSnowballObjectsArgs;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.SnowballObject;
+import net.obstor.UploadSnowballObjectsArgs;
+import net.obstor.errors.ObstorException;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UploadSnowballObjects {
-  /** MinioClient.uploadSnowballObjects() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.uploadSnowballObjects() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -54,7 +54,7 @@ public class UploadSnowballObjects {
             new ByteArrayInputStream("java".getBytes(StandardCharsets.UTF_8)),
             4,
             null));
-    minioClient.uploadSnowballObjects(
+    obstorClient.uploadSnowballObjects(
         UploadSnowballObjectsArgs.builder().bucket("my-bucket").objects(objects).build());
     System.out.println("my-object-one and my-object-two are successfully uploaded");
   }

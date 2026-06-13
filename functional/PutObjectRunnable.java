@@ -15,18 +15,18 @@
  */
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.minio.*;
+import net.obstor.*;
 import java.nio.file.*;
 
 @SuppressFBWarnings(
     value = "REC",
     justification = "Allow catching super class Exception since it's tests")
 class PutObjectRunnable implements Runnable {
-  MinioClient client;
+  ObstorClient client;
   String bucketName;
   String filename;
 
-  public PutObjectRunnable(MinioClient client, String bucketName, String filename) {
+  public PutObjectRunnable(ObstorClient client, String bucketName, String filename) {
     this.client = client;
     this.bucketName = bucketName;
     this.filename = filename;

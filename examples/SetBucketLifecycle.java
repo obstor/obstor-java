@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.SetBucketLifecycleArgs;
-import io.minio.errors.MinioException;
-import io.minio.messages.Filter;
-import io.minio.messages.LifecycleConfiguration;
-import io.minio.messages.Status;
+import net.obstor.ObstorClient;
+import net.obstor.SetBucketLifecycleArgs;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.Filter;
+import net.obstor.messages.LifecycleConfiguration;
+import net.obstor.messages.Status;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SetBucketLifecycle {
-  /** MinioClient.SetBucketLifecycle() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.SetBucketLifecycle() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -54,7 +54,7 @@ public class SetBucketLifecycle {
             null));
     LifecycleConfiguration config = new LifecycleConfiguration(rules);
 
-    minioClient.setBucketLifecycle(
+    obstorClient.setBucketLifecycle(
         SetBucketLifecycleArgs.builder().bucket("my-bucket").config(config).build());
   }
 }

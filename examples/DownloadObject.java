@@ -14,35 +14,35 @@
  * limitations under the License.
  */
 
-import io.minio.DownloadObjectArgs;
-import io.minio.MinioClient;
-import io.minio.ServerSideEncryption;
-import io.minio.errors.MinioException;
+import net.obstor.DownloadObjectArgs;
+import net.obstor.ObstorClient;
+import net.obstor.ServerSideEncryption;
+import net.obstor.errors.ObstorException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 
 public class DownloadObject {
-  /** MinioClient.getObject() example. */
+  /** ObstorClient.getObject() example. */
   public static void main(String[] args)
-      throws InvalidKeyException, MinioException, NoSuchAlgorithmException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+      throws InvalidKeyException, ObstorException, NoSuchAlgorithmException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
 
     {
       // Download 'my-object' from 'my-bucket' to 'my-filename'
-      minioClient.downloadObject(
+      obstorClient.downloadObject(
           DownloadObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")
@@ -58,7 +58,7 @@ public class DownloadObject {
           new ServerSideEncryption.CustomerKey(keyGen.generateKey());
 
       // Download SSE-C encrypted 'my-object' from 'my-bucket' to 'my-filename'
-      minioClient.downloadObject(
+      obstorClient.downloadObject(
           DownloadObjectArgs.builder()
               .bucket("my-bucket")
               .object("my-object")

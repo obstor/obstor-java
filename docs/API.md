@@ -1,13 +1,13 @@
-# Java Client API Reference [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io)
+# Java Client API Reference
 
-## Create MinIO Client.
+## Create Obstor Client.
 
-## MinIO
+## Obstor
 
 ```java
-MinioClient minioClient =
-    MinioClient.builder()
-        .endpoint("https://play.min.io")
+ObstorClient obstorClient =
+    ObstorClient.builder()
+        .endpoint("https://demo.obstor.net")
         .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
         .build();
 ```
@@ -15,8 +15,8 @@ MinioClient minioClient =
 ## AWS S3
 
 ```java
-MinioClient minioClient =
-    MinioClient.builder()
+ObstorClient obstorClient =
+    ObstorClient.builder()
         .endpoint("https://s3.amazonaws.com")
         .credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
         .build();
@@ -56,78 +56,78 @@ MinioClient minioClient =
 | [`setBucketVersioning`](#setBucketVersioning)                     |                                                         |
 | [`setObjectLockConfiguration`](#setObjectLockConfiguration)       |                                                         |
 
-## 1. MinIO Client Builder
+## 1. Obstor Client Builder
 
-MinIO Client Builder is used to create MinIO client. Builder has below methods to accept arguments.
+Obstor Client Builder is used to create Obstor client. Builder has below methods to accept arguments.
 | Method          | Description                                                                                                                                |
 |-----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | `endpoint()`    | Accepts endpoint as a String, URL or okhttp3.HttpUrl object and optionally accepts port number and flag to enable secure (TLS) connection. |
 |                 | Endpoint as a string can be formatted like below:                                                                                          |
 |                 | `https://s3.amazonaws.com`                                                                                                                 |
-|                 | `https://play.min.io`                                                                                                                      |
-|                 | `https://play.min.io:9000`                                                                                                                 |
+|                 | `https://demo.obstor.net`                                                                                                                      |
+|                 | `https://demo.obstor.net:9000`                                                                                                                 |
 |                 | `localhost`                                                                                                                                |
-|                 | `play.min.io`                                                                                                                              |
+|                 | `demo.obstor.net`                                                                                                                              |
 | `credentials()` | Accepts access key (aka user ID) and secret key (aka password) of an account in S3 service.                                                |
 | `region()`      | Accepts region name of S3 service. If specified, all operations use this region otherwise region is probed per bucket.                     |
 | `httpClient()`  | Custom HTTP client to override default.                                                                                                    |
 
 __Examples__
 
-### MinIO
+### Obstor
 
 ```java
-// 1. Create client to S3 service 'play.min.io' at port 443 with TLS security
+// 1. Create client to S3 service 'demo.obstor.net' at port 443 with TLS security
 // for anonymous access.
-MinioClient minioClient = MinioClient.builder().endpoint("https://play.min.io").build();
+ObstorClient obstorClient = ObstorClient.builder().endpoint("https://demo.obstor.net").build();
 
-// 2. Create client to S3 service 'play.min.io' at port 443 with TLS security
+// 2. Create client to S3 service 'demo.obstor.net' at port 443 with TLS security
 // using URL object for anonymous access.
-MinioClient minioClient = MinioClient.builder().endpoint(new URL("https://play.min.io")).build();
+ObstorClient obstorClient = ObstorClient.builder().endpoint(new URL("https://demo.obstor.net")).build();
 
-// 3. Create client to S3 service 'play.min.io' at port 9000 with TLS security
+// 3. Create client to S3 service 'demo.obstor.net' at port 9000 with TLS security
 // using okhttp3.HttpUrl object for anonymous access.
-MinioClient minioClient =
-    MinioClient.builder().endpoint(HttpUrl.parse("https://play.min.io:9000")).build();
+ObstorClient obstorClient =
+    ObstorClient.builder().endpoint(HttpUrl.parse("https://demo.obstor.net:9000")).build();
 
-// 4. Create client to S3 service 'play.min.io' at port 443 with TLS security
+// 4. Create client to S3 service 'demo.obstor.net' at port 443 with TLS security
 // for authenticated access.
-MinioClient minioClient =
-    MinioClient.builder()
-	    .endpoint("https://play.min.io")
+ObstorClient obstorClient =
+    ObstorClient.builder()
+	    .endpoint("https://demo.obstor.net")
 		.credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
 		.build();
 
-// 5. Create client to S3 service 'play.min.io' at port 9000 with non-TLS security
+// 5. Create client to S3 service 'demo.obstor.net' at port 9000 with non-TLS security
 // for authenticated access.
-MinioClient minioClient =
-    MinioClient.builder()
-	    .endpoint("play.min.io", 9000, false)
+ObstorClient obstorClient =
+    ObstorClient.builder()
+	    .endpoint("demo.obstor.net", 9000, false)
 	    .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
 		.build();
 
-// 6. Create client to S3 service 'play.min.io' at port 9000 with TLS security
+// 6. Create client to S3 service 'demo.obstor.net' at port 9000 with TLS security
 // for authenticated access.
-MinioClient minioClient =
-    MinioClient.builder()
-	    .endpoint("play.min.io", 9000, true)
+ObstorClient obstorClient =
+    ObstorClient.builder()
+	    .endpoint("demo.obstor.net", 9000, true)
 		.credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
 		.build();
 
-// 7. Create client to S3 service 'play.min.io' at port 443 with TLS security
+// 7. Create client to S3 service 'demo.obstor.net' at port 443 with TLS security
 // and region 'us-west-1' for authenticated access.
-MinioClient minioClient =
-    MinioClient.builder()
-	    .endpoint(new URL("https://play.min.io"))
+ObstorClient obstorClient =
+    ObstorClient.builder()
+	    .endpoint(new URL("https://demo.obstor.net"))
 		.credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
 		.region("us-west-1")
 		.build();
 
-// 8. Create client to S3 service 'play.min.io' at port 9000 with TLS security,
+// 8. Create client to S3 service 'demo.obstor.net' at port 9000 with TLS security,
 // region 'eu-east-1' and custom HTTP client for authenticated access.
-MinioClient minioClient =
-    MinioClient.builder()
-	    .endpoint("https://play.min.io:9000")
+ObstorClient obstorClient =
+    ObstorClient.builder()
+	    .endpoint("https://demo.obstor.net:9000")
 		.credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
 		.region("eu-east-1")
 		.httpClient(customHttpClient)
@@ -139,53 +139,53 @@ MinioClient minioClient =
 ```java
 // 1. Create client to S3 service 's3.amazonaws.com' at port 443 with TLS security
 // for anonymous access.
-MinioClient s3Client = MinioClient.builder().endpoint("https://s3.amazonaws.com").build();
+ObstorClient s3Client = ObstorClient.builder().endpoint("https://s3.amazonaws.com").build();
 
 // 2. Create client to S3 service 's3.amazonaws.com' at port 443 with TLS security
 // using URL object for anonymous access.
-MinioClient s3Client = MinioClient.builder().endpoint(new URL("https://s3.amazonaws.com")).build();
+ObstorClient s3Client = ObstorClient.builder().endpoint(new URL("https://s3.amazonaws.com")).build();
 
 // 3. Create client to S3 service 's3.amazonaws.com' at port 9000 with TLS security
 // using okhttp3.HttpUrl object for anonymous access.
-MinioClient s3Client =
-    MinioClient.builder().endpoint(HttpUrl.parse("https://s3.amazonaws.com")).build();
+ObstorClient s3Client =
+    ObstorClient.builder().endpoint(HttpUrl.parse("https://s3.amazonaws.com")).build();
 
 // 4. Create client to S3 service 's3.amazonaws.com' at port 80 with TLS security
 // for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
 	    .endpoint("s3.amazonaws.com")
 		.credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.build();
 
 // 5. Create client to S3 service 's3.amazonaws.com' at port 443 with non-TLS security
 // for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
         .endpoint("s3.amazonaws.com", 433, false)
 		.credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.build();
 
 // 6. Create client to S3 service 's3.amazonaws.com' at port 80 with non-TLS security
 // for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
 	    .endpoint("s3.amazonaws.com", 80, false)
         .credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.build();
 
 // 7. Create client to S3 service 's3.amazonaws.com' at port 80 with TLS security
 // for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
 	    .endpoint("s3.amazonaws.com", 80, true)
         .credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.build();
 
 // 8. Create client to S3 service 's3.amazonaws.com' at port 80 with non-TLS security
 // and region 'us-west-1' for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
 	    .endpoint("s3.amazonaws.com", 80, false)
         .credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.region("us-west-1")
@@ -193,8 +193,8 @@ MinioClient s3Client =
 
 // 9. Create client to S3 service 's3.amazonaws.com' at port 443 with TLS security
 // and region 'eu-west-2' for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
 	    .endpoint("s3.amazonaws.com", 443, true)
 		.credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.region("eu-west-2")
@@ -202,8 +202,8 @@ MinioClient s3Client =
 
 // 10. Create client to S3 service 's3.amazonaws.com' at port 443 with TLS security,
 // region 'eu-central-1' and custom HTTP client for authenticated access.
-MinioClient s3Client =
-    MinioClient.builder()
+ObstorClient s3Client =
+    ObstorClient.builder()
 	    .endpoint("s3.amazonaws.com", 443, true)
         .credentials("YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY")
 		.region("eu-central-1")
@@ -231,7 +231,7 @@ All APIs throw below exceptions in addition to specific to API.
 
 <a name="bucketExists"></a>
 ### bucketExists(BucketExistsArgs args)
-`public boolean bucketExists(BucketExistsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#bucketExists-io.minio.BucketExistsArgs-)_
+`public boolean bucketExists(BucketExistsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#bucketExists-net.obstor.BucketExistsArgs-)_
 
 Checks if a bucket exists.
 
@@ -248,7 +248,7 @@ __Example__
 ```java
 // Check whether 'my-bucketname' exists or not.
 boolean found =
-  minioClient.bucketExists(BucketExistsArgs.builder().bucket("my-bucketname").build());
+  obstorClient.bucketExists(BucketExistsArgs.builder().bucket("my-bucketname").build());
 if (found) {
   System.out.println("my-bucketname exists");
 } else {
@@ -258,7 +258,7 @@ if (found) {
 
 <a name="deleteBucketCors"></a>
 ### deleteBucketCors(DeleteBucketCorsArgs args)
-`private void deleteBucketCors(DeleteBucketCorsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketCors-io.minio.DeleteBucketCorsArgs-)_
+`private void deleteBucketCors(DeleteBucketCorsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketCors-net.obstor.DeleteBucketCorsArgs-)_
 
 Deletes CORS configuration of a bucket.
 
@@ -269,12 +269,12 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketCors(DeleteBucketCorsArgs.builder().bucket("my-bucketname").build());
+obstorClient.deleteBucketCors(DeleteBucketCorsArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteBucketEncryption"></a>
 ### deleteBucketEncryption(DeleteBucketEncryptionArgs args)
-`private void deleteBucketEncryption(DeleteBucketEncryptionArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketEncryption-io.minio.DeleteBucketEncryptionArgs-)_
+`private void deleteBucketEncryption(DeleteBucketEncryptionArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketEncryption-net.obstor.DeleteBucketEncryptionArgs-)_
 
 Deletes encryption configuration of a bucket.
 
@@ -285,13 +285,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketEncryption(
+obstorClient.deleteBucketEncryption(
     DeleteBucketEncryptionArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteBucketLifecycle"></a>
 ### deleteBucketLifecycle(DeleteBucketLifecycleArgs args)
-`private void deleteBucketLifecycle(DeleteBucketLifecycleArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketLifecycle-io.minio.DeleteBucketLifecycleArgs-)_
+`private void deleteBucketLifecycle(DeleteBucketLifecycleArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketLifecycle-net.obstor.DeleteBucketLifecycleArgs-)_
 
 Deletes lifecycle configuration of a bucket.
 
@@ -302,13 +302,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketLifecycle(
+obstorClient.deleteBucketLifecycle(
     DeleteBucketLifecycleArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteBucketTags"></a>
 ### deleteBucketTags(DeleteBucketTagsArgs args)
-`private void deleteBucketTags(DeleteBucketTagsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketTags-io.minio.DeleteBucketTagsArgs-)_
+`private void deleteBucketTags(DeleteBucketTagsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketTags-net.obstor.DeleteBucketTagsArgs-)_
 
 Deletes tags of a bucket.
 
@@ -319,12 +319,12 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketTags(DeleteBucketTagsArgs.builder().bucket("my-bucketname").build());
+obstorClient.deleteBucketTags(DeleteBucketTagsArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteBucketPolicy"></a>
 ### deleteBucketPolicy(DeleteBucketPolicyArgs args)
-`private void deleteBucketPolicy(DeleteBucketPolicyArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketPolicy-io.minio.DeleteBucketPolicyArgs-)_
+`private void deleteBucketPolicy(DeleteBucketPolicyArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketPolicy-net.obstor.DeleteBucketPolicyArgs-)_
 
 Deletes bucket policy configuration of a bucket.
 
@@ -335,12 +335,12 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketPolicy(DeleteBucketPolicyArgs.builder().bucket("my-bucketname").build());
+obstorClient.deleteBucketPolicy(DeleteBucketPolicyArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteBucketReplication"></a>
 ### deleteBucketReplication(DeleteBucketReplicationArgs args)
-`private void deleteBucketReplication(DeleteBucketReplicationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketReplication-io.minio.DeleteBucketReplicationArgs-)_
+`private void deleteBucketReplication(DeleteBucketReplicationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketReplication-net.obstor.DeleteBucketReplicationArgs-)_
 
 Deletes bucket replication configuration of a bucket.
 
@@ -351,13 +351,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketReplication(
+obstorClient.deleteBucketReplication(
     DeleteBucketReplicationArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteBucketNotification"></a>
 ### deleteBucketNotification(DeleteBucketNotificationArgs args)
-`public void deleteBucketNotification(DeleteBucketNotificationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteBucketNotification-io.minio.DeleteBucketNotificationArgs-)_
+`public void deleteBucketNotification(DeleteBucketNotificationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteBucketNotification-net.obstor.DeleteBucketNotificationArgs-)_
 
 Deletes notification configuration of a bucket.
 
@@ -368,13 +368,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteBucketNotification(
+obstorClient.deleteBucketNotification(
     DeleteBucketNotificationArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="deleteObjectLockConfiguration"></a>
 ### deleteObjectLockConfiguration(DeleteObjectLockConfigurationArgs args)
-`public void deleteObjectLockConfiguration(DeleteObjectLockConfigurationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteObjectLockConfiguration-io.minio.DeleteObjectLockConfigurationArgs-)_
+`public void deleteObjectLockConfiguration(DeleteObjectLockConfigurationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteObjectLockConfiguration-net.obstor.DeleteObjectLockConfigurationArgs-)_
 
 Deletes object-lock configuration in a bucket.
 
@@ -385,13 +385,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteObjectLockConfiguration(
+obstorClient.deleteObjectLockConfiguration(
     DeleteObjectLockConfigurationArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketCors"></a>
 ### getBucketCors(GetBucketCorsArgs args)
-`public Tags getBucketCors(GetBucketCorsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.htmlgetBucketCors-io.minio.GetBucketCorsArgs-)_
+`public Tags getBucketCors(GetBucketCorsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.htmlgetBucketCors-net.obstor.GetBucketCorsArgs-)_
 
 Gets CORS configuration of a bucket.
 
@@ -407,12 +407,12 @@ __Parameters__
 
 __Example__
 ```java
-CORSConfiguration config = minioClient.getBucketCors(GetBucketCorsArgs.builder().bucket("my-bucketname").build());
+CORSConfiguration config = obstorClient.getBucketCors(GetBucketCorsArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketEncryption"></a>
 ### getBucketEncryption(GetBucketEncryptionArgs args)
-`public SseConfiguration getBucketEncryption(GetBucketEncryptionArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getBucketEncryption-io.minio.GetBucketEncryptionArgs-)_
+`public SseConfiguration getBucketEncryption(GetBucketEncryptionArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getBucketEncryption-net.obstor.GetBucketEncryptionArgs-)_
 
 Gets encryption configuration of a bucket.
 
@@ -428,13 +428,13 @@ __Parameters__
 __Example__
 ```java
 SseConfiguration config =
-    minioClient.getBucketEncryption(
+    obstorClient.getBucketEncryption(
         GetBucketEncryptionArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketLifecycle"></a>
 ### getBucketLifecycle(GetBucketLifecycleArgs args)
-`public LifecycleConfiguration getBucketLifecycle(GetBucketLifecycleArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getBucketLifecycle-io.minio.GetBucketLifecycleArgs-)_
+`public LifecycleConfiguration getBucketLifecycle(GetBucketLifecycleArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getBucketLifecycle-net.obstor.GetBucketLifecycleArgs-)_
 
 Gets lifecycle configuration of a bucket.
 
@@ -450,14 +450,14 @@ __Parameters__
 __Example__
 ```java
 LifecycleConfiguration config =
-    minioClient.getBucketLifecycle(
+    obstorClient.getBucketLifecycle(
 	    GetBucketLifecycleArgs.builder().bucket("my-bucketname").build());
 System.out.println("Lifecycle configuration: " + config);
 ```
 
 <a name="getBucketNotification"></a>
 ### getBucketNotification(GetBucketNotificationArgs args)
-`public NotificationConfiguration getBucketNotification(GetBucketNotificationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getBucketNotification-io.minio.GetBucketNotificationArgs-)_
+`public NotificationConfiguration getBucketNotification(GetBucketNotificationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getBucketNotification-net.obstor.GetBucketNotificationArgs-)_
 
 Gets notification configuration of a bucket.
 
@@ -473,13 +473,13 @@ __Parameters__
 __Example__
 ```java
 NotificationConfiguration config =
-    minioClient.getBucketNotification(
+    obstorClient.getBucketNotification(
 	    GetBucketNotificationArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketPolicy"></a>
 ### getBucketPolicy(GetBucketPolicyArgs args)
-`public String getBucketPolicy(GetBucketPolicyArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getBucketPolicy-io.minio.GetBucketPolicyArgs-)_
+`public String getBucketPolicy(GetBucketPolicyArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getBucketPolicy-net.obstor.GetBucketPolicyArgs-)_
 
 Gets bucket policy configuration of a bucket.
 
@@ -496,12 +496,12 @@ __Parameters__
 __Example__
 ```java
 String config =
-    minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket("my-bucketname").build());
+    obstorClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketReplication"></a>
 ### getBucketReplication(GetBucketReplicationArgs args)
-`public ReplicationConfiguration getBucketReplication(GetBucketReplicationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getBucketReplication-io.minio.GetBucketReplicationArgs-)_
+`public ReplicationConfiguration getBucketReplication(GetBucketReplicationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getBucketReplication-net.obstor.GetBucketReplicationArgs-)_
 
 Gets bucket replication configuration of a bucket.
 
@@ -518,13 +518,13 @@ __Parameters__
 __Example__
 ```java
 ReplicationConfiguration config =
-    minioClient.getBucketReplication(
+    obstorClient.getBucketReplication(
 	    GetBucketReplicationArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketTags"></a>
 ### getBucketTags(GetBucketTagsArgs args)
-`public Tags getBucketTags(GetBucketTagsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.htmlgetBucketTags-io.minio.GetBucketTagsArgs-)_
+`public Tags getBucketTags(GetBucketTagsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.htmlgetBucketTags-net.obstor.GetBucketTagsArgs-)_
 
 Gets tags of a bucket.
 
@@ -540,12 +540,12 @@ __Parameters__
 
 __Example__
 ```java
-Tags tags = minioClient.getBucketTags(GetBucketTagsArgs.builder().bucket("my-bucketname").build());
+Tags tags = obstorClient.getBucketTags(GetBucketTagsArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getBucketVersioning"></a>
 ### getBucketVersioning(GetBucketVersioningArgs args)
-`public VersioningConfiguration getBucketVersioning(GetBucketVersioningArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getBucketVersioning-io.minio.GetBucketVersioningArgs-)_
+`public VersioningConfiguration getBucketVersioning(GetBucketVersioningArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getBucketVersioning-net.obstor.GetBucketVersioningArgs-)_
 
 Gets versioning configuration of a bucket.
 
@@ -561,13 +561,13 @@ __Parameters__
 __Example__
 ```java
 VersioningConfiguration config =
-    minioClient.getBucketVersioning(
+    obstorClient.getBucketVersioning(
         GetBucketVersioningArgs.builder().bucket("my-bucketname").build());
 ```
 
 <a name="getObjectLockConfiguration"></a>
 ### getObjectLockConfiguration(GetObjectLockConfigurationArgs args)
-`public ObjectLockConfiguration getObjectLockConfiguration(GetObjectLockConfigurationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObjectLockConfiguration-io.minio.GetObjectLockConfigurationArgs-)_
+`public ObjectLockConfiguration getObjectLockConfiguration(GetObjectLockConfigurationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObjectLockConfiguration-net.obstor.GetObjectLockConfigurationArgs-)_
 
 Gets object-lock configuration in a bucket.
 
@@ -584,7 +584,7 @@ __Parameters__
 __Example__
 ```java
 ObjectLockConfiguration config =
-    minioClient.getObjectLockConfiguration(
+    obstorClient.getObjectLockConfiguration(
 	    GetObjectLockConfigurationArgs.builder().bucket("my-bucketname").build());
 System.out.println("Mode: " + config.mode());
 System.out.println("Duration: " + config.duration().duration() + " " + config.duration().unit());
@@ -592,7 +592,7 @@ System.out.println("Duration: " + config.duration().duration() + " " + config.du
 
 <a name="listBuckets"></a>
 ### listBuckets()
-`public List<Bucket> listBuckets()` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#listBuckets--)_
+`public List<Bucket> listBuckets()` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#listBuckets--)_
 
 Lists bucket information of all buckets.
 
@@ -602,7 +602,7 @@ Lists bucket information of all buckets.
 
 __Example__
 ```java
-List<Bucket> bucketList = minioClient.listBuckets();
+List<Bucket> bucketList = obstorClient.listBuckets();
 for (Bucket bucket : bucketList) {
   System.out.println(bucket.creationDate() + ", " + bucket.name());
 }
@@ -610,7 +610,7 @@ for (Bucket bucket : bucketList) {
 
 <a name="listBuckets"></a>
 ### listBuckets(ListBucketsArgs args)
-`public List<Bucket> listBuckets(ListBucketsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#listBuckets-io.minio.ListBucketsArgs-)_
+`public List<Bucket> listBuckets(ListBucketsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#listBuckets-net.obstor.ListBucketsArgs-)_
 
 Lists bucket information of all buckets.
 
@@ -626,7 +626,7 @@ __Parameters__
 __Example__
 ```java
 List<Bucket> bucketList =
-    minioClient.listBuckets(ListBuckets.builder().extraHeaders(headers).build());
+    obstorClient.listBuckets(ListBuckets.builder().extraHeaders(headers).build());
 for (Bucket bucket : bucketList) {
   System.out.println(bucket.creationDate() + ", " + bucket.name());
 }
@@ -634,7 +634,7 @@ for (Bucket bucket : bucketList) {
 
 <a name="listenBucketNotification"></a>
 ### listenBucketNotification(ListenBucketNotificationArgs args)
-`public CloseableIterator<Result<NotificationRecords>> listenBucketNotification(ListenBucketNotificationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#listenBucketNotification-io.minio.ListenBucketNotificationArgs-)_
+`public CloseableIterator<Result<NotificationRecords>> listenBucketNotification(ListenBucketNotificationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#listenBucketNotification-net.obstor.ListenBucketNotificationArgs-)_
 
 Listens events of object prefix and suffix of a bucket. The returned closable iterator is lazily evaluated hence its required to iterate to get new records and must be used with try-with-resource to release underneath network resources.
 
@@ -651,7 +651,7 @@ __Example__
 ```java
 String[] events = {"s3:ObjectCreated:*", "s3:ObjectAccessed:*"};
 try (CloseableIterator<Result<NotificationRecords>> ci =
-    minioClient.listenBucketNotification(
+    obstorClient.listenBucketNotification(
         ListenBucketNotificationArgs.builder()
             .bucket("bucketName")
             .prefix("")
@@ -670,7 +670,7 @@ try (CloseableIterator<Result<NotificationRecords>> ci =
 
 <a name="listObjects"></a>
 ### listObjects(ListObjectsArgs args)
-`public Iterable<Result<Item>> listObjects(ListObjectsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#listObjects-io.minio.ListObjectsArgs-)_
+`public Iterable<Result<Item>> listObjects(ListObjectsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#listObjects-net.obstor.ListObjectsArgs-)_
 
 Lists object information of a bucket.
 
@@ -686,15 +686,15 @@ __Parameters__
 __Example__
 ```java
 // Lists objects information.
-Iterable<Result<Item>> results = minioClient.listObjects(
+Iterable<Result<Item>> results = obstorClient.listObjects(
     ListObjectsArgs.builder().bucket("my-bucketname").build());
 
 // Lists objects information recursively.
-Iterable<Result<Item>> results = minioClient.listObjects(
+Iterable<Result<Item>> results = obstorClient.listObjects(
     ListObjectsArgs.builder().bucket("my-bucketname").recursive(true).build());
 
 // Lists maximum 100 objects information whose names starts with 'E' and after 'ExampleGuide.pdf'.
-Iterable<Result<Item>> results = minioClient.listObjects(
+Iterable<Result<Item>> results = obstorClient.listObjects(
     ListObjectsArgs.builder()
         .bucket("my-bucketname")
         .startAfter("ExampleGuide.pdf")
@@ -704,7 +704,7 @@ Iterable<Result<Item>> results = minioClient.listObjects(
 
 // Lists maximum 100 objects information with version whose names starts with 'E' and after
 // 'ExampleGuide.pdf'.
-Iterable<Result<Item>> results = minioClient.listObjects(
+Iterable<Result<Item>> results = obstorClient.listObjects(
     ListObjectsArgs.builder()
         .bucket("my-bucketname")
         .startAfter("ExampleGuide.pdf")
@@ -715,7 +715,7 @@ Iterable<Result<Item>> results = minioClient.listObjects(
 ```
 
 ### makeBucket(MakeBucketArgs args)
-`public void makeBucket(MakeBucketArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#makeBucket-io.minio.MakeBucketArgs-)_
+`public void makeBucket(MakeBucketArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#makeBucket-net.obstor.MakeBucketArgs-)_
 
 Creates a bucket with given region and object lock feature enabled.
 
@@ -729,20 +729,20 @@ __Example__
 
 ```java
 // Create bucket with default region.
-minioClient.makeBucket(
+obstorClient.makeBucket(
     MakeBucketArgs.builder()
         .bucket("my-bucketname")
         .build());
 
 // Create bucket with specific region.
-minioClient.makeBucket(
+obstorClient.makeBucket(
     MakeBucketArgs.builder()
         .bucket("my-bucketname")
         .region("us-west-1")
         .build());
 
 // Create object-lock enabled bucket with specific region.
-minioClient.makeBucket(
+obstorClient.makeBucket(
     MakeBucketArgs.builder()
         .bucket("my-bucketname")
         .region("us-west-1")
@@ -752,7 +752,7 @@ minioClient.makeBucket(
 
 <a name="removeBucket"></a>
 ### removeBucket(RemoveBucketArgs args)
-`public void removeBucket(RemoveBucketArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#removeBucket-io.minio.RemoveBucketArgs-)_
+`public void removeBucket(RemoveBucketArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#removeBucket-net.obstor.RemoveBucketArgs-)_
 
 Removes an empty bucket.
 
@@ -764,12 +764,12 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
+obstorClient.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
 ```
 
 <a name="setBucketCors"></a>
 ### setBucketCors(SetBucketCorsArgs args)
-`public void setBucketCors(SetBucketCorsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketCors-io.minio.SetBucketCorsArgs-)_
+`public void setBucketCors(SetBucketCorsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketCors-net.obstor.SetBucketCorsArgs-)_
 
 Sets CORS configuration to a bucket.
 
@@ -804,12 +804,12 @@ CORSConfiguration config =
                   null // Maximum age seconds
                   )
             }));
-minioClient.setBucketCors(SetBucketCorsArgs.builder().bucket("my-bucketname").config(config).build());
+obstorClient.setBucketCors(SetBucketCorsArgs.builder().bucket("my-bucketname").config(config).build());
 ```
 
 <a name="setBucketEncryption"></a>
 ### setBucketEncryption(SetBucketEncryptionArgs args)
-`public void setBucketEncryption(SetBucketEncryptionArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketEncryption-io.minio.SetBucketEncryptionArgs-)_
+`public void setBucketEncryption(SetBucketEncryptionArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketEncryption-net.obstor.SetBucketEncryptionArgs-)_
 
 Sets encryption configuration of a bucket.
 
@@ -820,13 +820,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.setBucketEncryption(
+obstorClient.setBucketEncryption(
     SetBucketEncryptionArgs.builder().bucket("my-bucketname").config(config).build());
  ```
 
 <a name="setBucketLifecycle"></a>
 ### setBucketLifecycle(SetBucketLifecycleArgs args)
-`public void setBucketLifecycle(SetBucketLifecycleArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketLifecycle-io.minio.SetBucketLifecycleArgs-)_
+`public void setBucketLifecycle(SetBucketLifecycleArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketLifecycle-net.obstor.SetBucketLifecycleArgs-)_
 
 Sets lifecycle configuration to a bucket.
 
@@ -859,13 +859,13 @@ rules.add(
         null,
         null));
 LifecycleConfiguration config = new LifecycleConfiguration(rules);
-minioClient.setBucketLifecycle(
+obstorClient.setBucketLifecycle(
     SetBucketLifecycleArgs.builder().bucket("my-bucketname").config(config).build());
 ```
 
 <a name="setBucketNotification"></a>
 ### setBucketNotification(SetBucketNotificationArgs args)
-`public void setBucketNotification(SetBucketNotificationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketNotification-io.minio.SetBucketNotificationArgs-)_
+`public void setBucketNotification(SetBucketNotificationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketNotification-net.obstor.SetBucketNotificationArgs-)_
 
 Sets notification configuration to a bucket.
 
@@ -882,7 +882,7 @@ eventList.add(EventType.OBJECT_CREATED_PUT);
 eventList.add(EventType.OBJECT_CREATED_COPY);
 
 QueueConfiguration queueConfiguration = new QueueConfiguration();
-queueConfiguration.setQueue("arn:minio:sqs::1:webhook");
+queueConfiguration.setQueue("arn:obstor:sqs::1:webhook");
 queueConfiguration.setEvents(eventList);
 queueConfiguration.setPrefixRule("images");
 queueConfiguration.setSuffixRule("pg");
@@ -893,13 +893,13 @@ queueConfigurationList.add(queueConfiguration);
 NotificationConfiguration config = new NotificationConfiguration();
 config.setQueueConfigurationList(queueConfigurationList);
 
-minioClient.setBucketNotification(
+obstorClient.setBucketNotification(
     SetBucketNotificationArgs.builder().bucket("my-bucketname").config(config).build());
 ```
 
 <a name="setBucketPolicy"></a>
 ### setBucketPolicy(SetBucketPolicyArgs args)
-`public void setBucketPolicy(SetBucketPolicyArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketPolicy-io.minio.SetBucketPolicyArgs-)_
+`public void setBucketPolicy(SetBucketPolicyArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketPolicy-net.obstor.SetBucketPolicyArgs-)_
 
 Sets bucket policy configuration to a bucket.
 
@@ -933,13 +933,13 @@ __Example__
 //     "Version": "2012-10-17"
 // }
 //
-minioClient.setBucketPolicy(
+obstorClient.setBucketPolicy(
     SetBucketPolicyArgs.builder().bucket("my-bucketname").config(policyJson).build());
 ```
 
 <a name="setBucketReplication"></a>
 ### setBucketReplication(SetBucketReplicationArgs args)
-`public void setBucketReplication(SetBucketReplicationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketReplication-io.minio.SetBucketReplicationArgs-)_
+`public void setBucketReplication(SetBucketReplicationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketReplication-net.obstor.SetBucketReplicationArgs-)_
 
 Sets bucket replication configuration to a bucket.
 
@@ -974,13 +974,13 @@ rules.add(rule);
 ReplicationConfiguration config =
     new ReplicationConfiguration("REPLACE-WITH-ACTUAL-ROLE", rules);
 
-minioClient.setBucketReplication(
+obstorClient.setBucketReplication(
     SetBucketReplicationArgs.builder().bucket("my-bucketname").config(config).build());
 ```
 
 <a name="setBucketTags"></a>
 ### setBucketTags(SetBucketTagsArgs args)
-`public void setBucketTags(SetBucketTagsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketTags-io.minio.SetBucketTagsArgs-)_
+`public void setBucketTags(SetBucketTagsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketTags-net.obstor.SetBucketTagsArgs-)_
 
 Sets tags to a bucket.
 
@@ -995,12 +995,12 @@ __Example__
 Map<String, String> map = new HashMap<>();
 map.put("Project", "Project One");
 map.put("User", "jsmith");
-minioClient.setBucketTags(SetBucketTagsArgs.builder().bucket("my-bucketname").tags(map).build());
+obstorClient.setBucketTags(SetBucketTagsArgs.builder().bucket("my-bucketname").tags(map).build());
 ```
 
 <a name="setBucketVersioning"></a>
 ### setBucketVersioning(SetBucketVersioningArgs args)
-`public void setBucketVersioning(SetBucketVersioningArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setBucketVersioning-io.minio.SetBucketVersioningArgs-)_
+`public void setBucketVersioning(SetBucketVersioningArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setBucketVersioning-net.obstor.SetBucketVersioningArgs-)_
 
 Sets versioning configuration of a bucket.
 
@@ -1011,13 +1011,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.setBucketVersioning(
+obstorClient.setBucketVersioning(
     SetBucketVersioningArgs.builder().bucket("my-bucketname").config(config).build());
  ```
 
 <a name="setObjectLockConfiguration"></a>
 ### setObjectLockConfiguration(SetObjectLockConfigurationArgs args)
-`public void setObjectLockConfiguration(SetObjectLockConfigurationArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setObjectLockConfiguration-io.minio.SetObjectLockConfigurationArgs-)_
+`public void setObjectLockConfiguration(SetObjectLockConfigurationArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setObjectLockConfiguration-net.obstor.SetObjectLockConfigurationArgs-)_
 
 Sets object-lock configuration in a bucket.
 
@@ -1030,7 +1030,7 @@ __Example__
 ```java
 ObjectLockConfiguration config =
     new ObjectLockConfiguration(RetentionMode.COMPLIANCE, new RetentionDurationDays(100));
-minioClient.setObjectLockConfiguration(
+obstorClient.setObjectLockConfiguration(
     SetObjectLockConfigurationArgs.builder().bucket("my-bucketname").config(config).build());
 ```
 
@@ -1038,7 +1038,7 @@ minioClient.setObjectLockConfiguration(
 
 <a name="composeObject"></a>
 ### composeObject(ComposeObjectArgs args)
-`public ObjectWriteResponse composeObject(ComposeObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#composeObject-io.minio.ComposeObjectArgs--)_
+`public ObjectWriteResponse composeObject(ComposeObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#composeObject-net.obstor.ComposeObjectArgs--)_
 
 Creates an object by combining data from different source objects using server-side copy.
 
@@ -1062,7 +1062,7 @@ sourceObjectList.add(
   ComposeSource.builder().bucket("my-job-bucket").object("my-objectname-part-three").build());
 
 // Create my-bucketname/my-objectname by combining source object list.
-minioClient.composeObject(
+obstorClient.composeObject(
   ComposeObjectArgs.builder()
       .bucket("my-bucketname")
       .object("my-objectname")
@@ -1073,7 +1073,7 @@ minioClient.composeObject(
 // list.
 Map<String, String> userMetadata = new HashMap<>();
 userMetadata.put("My-Project", "Project One");
-minioClient.composeObject(
+obstorClient.composeObject(
     ComposeObjectArgs.builder()
       .bucket("my-bucketname")
       .object("my-objectname")
@@ -1083,7 +1083,7 @@ minioClient.composeObject(
 
 // Create my-bucketname/my-objectname with user metadata and server-side encryption
 // by combining source object list.
-minioClient.composeObject(
+obstorClient.composeObject(
   ComposeObjectArgs.builder()
       .bucket("my-bucketname")
       .object("my-objectname")
@@ -1095,7 +1095,7 @@ minioClient.composeObject(
 
 <a name="copyObject"></a>
 ### copyObject(CopyObjectArgs args)
-`public ObjectWriteResponse copyObject(CopyObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#copyObject-io.minio.CopyObjectArgs-)_
+`public ObjectWriteResponse copyObject(CopyObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#copyObject-net.obstor.CopyObjectArgs-)_
 
 Creates an object by server-side copying data from another object.
 
@@ -1113,7 +1113,7 @@ __Example__
 ```java
 // Create object "my-objectname" in bucket "my-bucketname" by copying from object
 // "my-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1126,7 +1126,7 @@ minioClient.copyObject(
 
 // Create object "my-objectname" in bucket "my-bucketname" by copying from object
 // "my-source-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1139,7 +1139,7 @@ minioClient.copyObject(
 
 // Create object "my-objectname" in bucket "my-bucketname" with SSE-KMS server-side
 // encryption by copying from object "my-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1153,7 +1153,7 @@ minioClient.copyObject(
 
 // Create object "my-objectname" in bucket "my-bucketname" with SSE-S3 server-side
 // encryption by copying from object "my-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1167,7 +1167,7 @@ minioClient.copyObject(
 
 // Create object "my-objectname" in bucket "my-bucketname" with SSE-C server-side encryption
 // by copying from object "my-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1181,7 +1181,7 @@ minioClient.copyObject(
 
 // Create object "my-objectname" in bucket "my-bucketname" by copying from SSE-C encrypted
 // object "my-source-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1195,7 +1195,7 @@ minioClient.copyObject(
 
 // Create object "my-objectname" in bucket "my-bucketname" with custom headers conditionally
 // by copying from object "my-objectname" in bucket "my-source-bucketname".
-minioClient.copyObject(
+obstorClient.copyObject(
     CopyObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1211,7 +1211,7 @@ minioClient.copyObject(
 
 <a name="deleteObjectTags"></a>
 ### deleteObjectTags(DeleteObjectTagsArgs args)
-`private void deleteObjectTags(DeleteObjectTagsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#deleteObjectTags-io.minio.DeleteObjectTagsArgs-)_
+`private void deleteObjectTags(DeleteObjectTagsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#deleteObjectTags-net.obstor.DeleteObjectTagsArgs-)_
 
 Deletes tags of an object.
 
@@ -1222,13 +1222,13 @@ __Parameters__
 
 __Example__
 ```java
-minioClient.deleteObjectTags(
+obstorClient.deleteObjectTags(
     DeleteObjectArgs.builder().bucket("my-bucketname").object("my-objectname").build());
 ```
 
 <a name="disableObjectLegalHold"></a>
 ### disableObjectLegalHold(DisableObjectLegalHoldArgs args)
-`public void disableObjectLegalHold(DisableObjectLegalHoldArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#disableObjectLegalHold-io.minio.DisableObjectLegalHoldArgs-)_
+`public void disableObjectLegalHold(DisableObjectLegalHoldArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#disableObjectLegalHold-net.obstor.DisableObjectLegalHoldArgs-)_
 
 Disables legal hold on an object.
 
@@ -1242,7 +1242,7 @@ Disables legal hold on an object.
 
 ```java
 // Disables legal hold on an object.
-minioClient.disableObjectLegalHold(
+obstorClient.disableObjectLegalHold(
     DisableObjectLegalHoldArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1251,7 +1251,7 @@ minioClient.disableObjectLegalHold(
 
 <a name="enableObjectLegalHold"></a>
 ### enableObjectLegalHold(EnableObjectLegalHoldArgs args)
-`public void enableObjectLegalHold(EnableObjectLegalHoldArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#enableObjectLegalHold-io.minio.EnableObjectLegalHoldArgs-)_
+`public void enableObjectLegalHold(EnableObjectLegalHoldArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#enableObjectLegalHold-net.obstor.EnableObjectLegalHoldArgs-)_
 
 Enables legal hold on an object.
 
@@ -1266,7 +1266,7 @@ Enables legal hold on an object.
  ```java
 
  // Disables legal hold on an object.
-minioClient.enableObjectLegalHold(
+obstorClient.enableObjectLegalHold(
     EnableObjectLegalHoldArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1275,7 +1275,7 @@ minioClient.enableObjectLegalHold(
 
 <a name="getObject"></a>
 ### getObject(GetObjectArgs args)
-`public InputStream getObject(GetObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObject-io.minio.GetObjectArgs-)_
+`public InputStream getObject(GetObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObject-net.obstor.GetObjectArgs-)_
 
 Gets data of an object. Returned `InputStream` must be closed after use to release network resources.
 
@@ -1291,7 +1291,7 @@ __Parameters__
 __Example__
 ```java
 // get object given the bucket and object name
-try (InputStream stream = minioClient.getObject(
+try (InputStream stream = obstorClient.getObject(
   GetObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1300,7 +1300,7 @@ try (InputStream stream = minioClient.getObject(
 }
 
 // get object data from offset
-try (InputStream stream = minioClient.getObject(
+try (InputStream stream = obstorClient.getObject(
   GetObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1310,7 +1310,7 @@ try (InputStream stream = minioClient.getObject(
 }
 
 // get object data from offset to length
-try (InputStream stream = minioClient.getObject(
+try (InputStream stream = obstorClient.getObject(
   GetObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1321,7 +1321,7 @@ try (InputStream stream = minioClient.getObject(
 }
 
 // get data of an SSE-C encrypted object
-try (InputStream stream = minioClient.getObject(
+try (InputStream stream = obstorClient.getObject(
   GetObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1331,7 +1331,7 @@ try (InputStream stream = minioClient.getObject(
 }
 
 // get object data from offset to length of an SSE-C encrypted object
-try (InputStream stream = minioClient.getObject(
+try (InputStream stream = obstorClient.getObject(
   GetObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1345,7 +1345,7 @@ try (InputStream stream = minioClient.getObject(
 
 <a name="getObjectAcl"></a>
 ### getObjectAcl(GetObjectAclArgs args)
-`public Acl getObjectAcl(GetObjectAclArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObjectAcl-io.minio.GetObjectAclArgs-)_
+`public Acl getObjectAcl(GetObjectAclArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObjectAcl-net.obstor.GetObjectAclArgs-)_
 
 Gets tags of an object.
 
@@ -1361,13 +1361,13 @@ __Parameters__
 
 __Example__
 ```java
-AccessControlPolicy policy = minioClient.getObjectAcl(
+AccessControlPolicy policy = obstorClient.getObjectAcl(
     GetObjectAclArgs.builder().bucket("my-bucketname").object("my-objectname").build());
 ```
 
 <a name="getObjectAttributes"></a>
 ### getObjectAttributes(GetObjectAttributesArgs args)
-`public GetObjectAttributesResponse getObjectAttributes(GetObjectAttributesArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObjectAttributes-io.minio.GetObjectAttributesArgs-)_
+`public GetObjectAttributesResponse getObjectAttributes(GetObjectAttributesArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObjectAttributes-net.obstor.GetObjectAttributesArgs-)_
 
 Gets tags of an object.
 
@@ -1384,7 +1384,7 @@ __Parameters__
 __Example__
 ```java
 GetObjectAttributesResponse response =
-    minioClient.getObjectAttributes(
+    obstorClient.getObjectAttributes(
         GetObjectAttributesArgs.builder()
             .bucket("my-bucketname")
             .object("my-objectname")
@@ -1397,7 +1397,7 @@ GetObjectAttributesResponse response =
 
 <a name="downloadObject"></a>
 ### downloadObject(DownloadObjectArgs args)
-`public void downloadObject(DownloadObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObject-io.minio.DownloadObjectArgs-)_
+`public void downloadObject(DownloadObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObject-net.obstor.DownloadObjectArgs-)_
 
 Downloads data of an object to file.
 
@@ -1409,7 +1409,7 @@ __Parameters__
 __Example__
 ```java
 // Download object given the bucket, object name and output file name
-minioClient.downloadObject(
+obstorClient.downloadObject(
   DownloadObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1417,7 +1417,7 @@ minioClient.downloadObject(
   .build());
 
 // Download server-side encrypted object in bucket to given file name
-minioClient.downloadObject(
+obstorClient.downloadObject(
   DownloadObjectArgs.builder()
   .bucket("my-bucketname")
   .object("my-objectname")
@@ -1428,7 +1428,7 @@ minioClient.downloadObject(
 
  <a name="getObjectRetention"></a>
 ### getObjectRetention(GetObjectRetentionArgs args)
-`public Retention getObjectRetention(GetObjectRetentionArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObjectRetention-io.minio.GetObjectRetentionArgs-)_
+`public Retention getObjectRetention(GetObjectRetentionArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObjectRetention-net.obstor.GetObjectRetentionArgs-)_
 
 Gets retention configuration of an object.
 
@@ -1446,7 +1446,7 @@ Gets retention configuration of an object.
  ```java
 // Object with version id.
 Retention retention =
-    minioClient.getObjectRetention(
+    obstorClient.getObjectRetention(
         GetObjectRetentionArgs.builder()
             .bucket("my-bucketname")
             .object("my-objectname")
@@ -1457,7 +1457,7 @@ System.out.println("mode: " + retention.mode() + "until: " + retention.retainUnt
 
 <a name="getObjectTags"></a>
 ### getObjectTags(GetObjectTagsArgs args)
-`public Tags getObjectTags(GetObjectTagsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getObjectTags-io.minio.GetObjectTagsArgs-)_
+`public Tags getObjectTags(GetObjectTagsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getObjectTags-net.obstor.GetObjectTagsArgs-)_
 
 Gets tags of an object.
 
@@ -1473,13 +1473,13 @@ __Parameters__
 
 __Example__
 ```java
-Tags tags = minioClient.getObjectTags(
+Tags tags = obstorClient.getObjectTags(
     GetObjectTagsArgs.builder().bucket("my-bucketname").object("my-objectname").build());
 ```
 
  <a name="getPresignedObjectUrl"></a>
 ### getPresignedObjectUrl(GetPresignedObjectUrlArgs args)
-`public String getPresignedObjectUrl(GetPresignedObjectUrlArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getPresignedObjectUrl-io.minio.GetPresignedObjectUrlArgs-)_
+`public String getPresignedObjectUrl(GetPresignedObjectUrlArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getPresignedObjectUrl-net.obstor.GetPresignedObjectUrlArgs-)_
 
 Gets presigned URL of an object for HTTP method, expiry time and custom request parameters.
 
@@ -1503,7 +1503,7 @@ Map<String, String> reqParams = new HashMap<String, String>();
 reqParams.put("response-content-type", "application/json");
 
 String url =
-    minioClient.getPresignedObjectUrl(
+    obstorClient.getPresignedObjectUrl(
         GetPresignedObjectUrlArgs.builder()
             .method(Method.GET)
             .bucket("my-bucketname")
@@ -1516,7 +1516,7 @@ System.out.println(url);
 // Get presigned URL string to upload 'my-objectname' in 'my-bucketname'
 // with an expiration of 1 day.
 String url =
-    minioClient.getPresignedObjectUrl(
+    obstorClient.getPresignedObjectUrl(
         GetPresignedObjectUrlArgs.builder()
             .method(Method.PUT)
             .bucket("my-bucketname")
@@ -1534,7 +1534,7 @@ Map<String, String> reqParams = new HashMap<String, String>();
 reqParams.put("response-content-type", "application/json");
 
 String url =
-    minioClient.getPresignedObjectUrl(
+    obstorClient.getPresignedObjectUrl(
         GetPresignedObjectUrlArgs.builder()
             .method(Method.HEAD)
             .bucket("my-bucketname")
@@ -1547,7 +1547,7 @@ System.out.println(url);
 
  <a name="isObjectLegalHoldEnabled"></a>
 ### isObjectLegalHoldEnabled(IsObjectLegalHoldEnabledArgs args)
-`public boolean isObjectLegalHoldEnabled(IsObjectLegalHoldEnabledArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#isObjectLegalHoldEnabled-io.minio.IsObjectLegalHoldEnabledArgs-)_
+`public boolean isObjectLegalHoldEnabled(IsObjectLegalHoldEnabledArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#isObjectLegalHoldEnabled-net.obstor.IsObjectLegalHoldEnabledArgs-)_
 
 Returns true if legal hold is enabled on an object.
 
@@ -1581,7 +1581,7 @@ else {
 
 <a name="getPresignedPostFormData"></a>
 ### getPresignedPostFormData(PostPolicy policy)
-`public Map<String,String> getPresignedPostFormData(PostPolicy policy)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#getPresignedPostFormData-io.minio.PostPolicy-)_
+`public Map<String,String> getPresignedPostFormData(PostPolicy policy)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#getPresignedPostFormData-net.obstor.PostPolicy-)_
 
 Gets form-data of [PostPolicy] of an object to upload its data using POST method.
 
@@ -1608,7 +1608,7 @@ policy.addStartsWithCondition("Content-Type", "image/");
 // Add condition that 'content-length-range' is between 64kiB to 10MiB.
 policy.addContentLengthRangeCondition(64 * 1024, 10 * 1024 * 1024);
 
-Map<String, String> formData = minioClient.getPresignedPostFormData(policy);
+Map<String, String> formData = obstorClient.getPresignedPostFormData(policy);
 
 // Upload an image using POST object with form-data.
 MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
@@ -1625,7 +1625,7 @@ multipartBuilder.addFormDataPart(
 
 Request request =
     new Request.Builder()
-        .url("https://play.min.io/my-bucketname")
+        .url("https://demo.obstor.net/my-bucketname")
         .post(multipartBuilder.build())
         .build();
 OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
@@ -1639,7 +1639,7 @@ if (response.isSuccessful()) {
 
 <a name="promptObject"></a>
 ### promptObject(PromptObjectArgs args)
-`public ObjectWriteResponse promptObject(PromptObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#promptObject-io.minio.PromptObjectArgs-)_
+`public ObjectWriteResponse promptObject(PromptObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#promptObject-net.obstor.PromptObjectArgs-)_
 
 Performs language model inference with the prompt and referenced object as context.
 
@@ -1654,7 +1654,7 @@ __Parameters__
 
 <a name="putObject"></a>
 ### putObject(PutObjectArgs args)
-`public ObjectWriteResponse putObject(PutObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#putObject-io.minio.PutObjectArgs-)_
+`public ObjectWriteResponse putObject(PutObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#putObject-net.obstor.PutObjectArgs-)_
 
 Uploads given stream as object in bucket.
 
@@ -1670,21 +1670,21 @@ __Parameters__
 __Example__
 ```java
 // Upload known sized input stream.
-minioClient.putObject(
+obstorClient.putObject(
     PutObjectArgs.builder().bucket("my-bucketname").object("my-objectname").stream(
             inputStream, size, -1)
         .contentType("video/mp4")
         .build());
 
 // Upload unknown sized input stream.
-minioClient.putObject(
+obstorClient.putObject(
     PutObjectArgs.builder().bucket("my-bucketname").object("my-objectname").stream(
             inputStream, -1, 10485760)
         .contentType("video/mp4")
         .build());
 
 // Create object ends with '/' (also called as folder or directory).
-minioClient.putObject(
+obstorClient.putObject(
     PutObjectArgs.builder().bucket("my-bucketname").object("path/to/").stream(
             new ByteArrayInputStream(new byte[] {}), 0, -1)
         .build());
@@ -1694,7 +1694,7 @@ Map<String, String> headers = new HashMap<>();
 headers.put("X-Amz-Storage-Class", "REDUCED_REDUNDANCY");
 Map<String, String> userMetadata = new HashMap<>();
 userMetadata.put("My-Project", "Project One");
-minioClient.putObject(
+obstorClient.putObject(
     PutObjectArgs.builder().bucket("my-bucketname").object("my-objectname").stream(
             inputStream, size, -1)
         .headers(headers)
@@ -1702,7 +1702,7 @@ minioClient.putObject(
         .build());
 
 // Upload input stream with server-side encryption.
-minioClient.putObject(
+obstorClient.putObject(
     PutObjectArgs.builder().bucket("my-bucketname").object("my-objectname").stream(
             inputStream, size, -1)
         .sse(sse)
@@ -1711,7 +1711,7 @@ minioClient.putObject(
 
 <a name="putObjectFanOut"></a>
 ### putObjectFanOut(PutObjectFanOutArgs args)
-`public PutObjectFanOutResponse putObjectFanOut(PutObjectFanOutArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#putObjectFanOut-io.minio.PutObjectFanOutArgs-)_
+`public PutObjectFanOutResponse putObjectFanOut(PutObjectFanOutArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#putObjectFanOut-net.obstor.PutObjectFanOutArgs-)_
 
 Uploads multiple objects with same content from single stream with optional metadata and tags.
 
@@ -1731,7 +1731,7 @@ Map<String, String> map = new HashMap<>();
 map.put("Project", "Project One");
 map.put("User", "jsmith");
 PutObjectFanOutResponse response =
-    minioClient.putObjectFanOut(
+    obstorClient.putObjectFanOut(
         PutObjectFanOutArgs.builder().bucket("my-bucketname").stream(
                 new ByteArrayInputStream("somedata".getBytes(StandardCharsets.UTF_8)), 8)
             .entries(
@@ -1745,7 +1745,7 @@ PutObjectFanOutResponse response =
 
 <a name="uploadObject"></a>
 ### uploadObject(UploadObjectArgs args)
-`public void uploadObject(UploadObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#uploadObject-io.minio.UploadObjectArgs-)_
+`public void uploadObject(UploadObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#uploadObject-net.obstor.UploadObjectArgs-)_
 
 Uploads contents from a file as object in bucket.
 
@@ -1757,12 +1757,12 @@ __Parameters__
 __Example__
 ```java
 // Upload an JSON file.
-minioClient.uploadObject(
+obstorClient.uploadObject(
     UploadObjectArgs.builder()
         .bucket("my-bucketname").object("my-objectname").filename("person.json").build());
 
 // Upload a video file.
-minioClient.uploadObject(
+obstorClient.uploadObject(
     UploadObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1773,7 +1773,7 @@ minioClient.uploadObject(
 
 <a name="uploadSnowballObjects"></a>
 ### uploadSnowballObjects(UploadSnowballObjectsArgs args)
-`public void uploadSnowballObjects(UploadSnowballObjectsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#uploadSnowballObjects-io.minio.UploadSnowballObjectsArgs-)_
+`public void uploadSnowballObjects(UploadSnowballObjectsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#uploadSnowballObjects-net.obstor.UploadSnowballObjectsArgs-)_
 
 Uploads multiple objects in a single put call. It is done by creating intermediate TAR file optionally compressed which is uploaded to S3 service.
 
@@ -1797,13 +1797,13 @@ objects.add(
         new ByteArrayInputStream("java".getBytes(StandardCharsets.UTF_8)),
         4,
         null));
-minioClient.uploadSnowballObjects(
+obstorClient.uploadSnowballObjects(
     UploadSnowballObjectsArgs.builder().bucket("my-bucketname").objects(objects).build());
 ```
 
 <a name="removeObject"></a>
 ### removeObject(RemoveObjectArgs args)
-`public void removeObject(RemoveObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#removeObject-io.minio.RemoveObjectArgs-)_
+`public void removeObject(RemoveObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#removeObject-net.obstor.RemoveObjectArgs-)_
 
 Removes an object.
 
@@ -1815,11 +1815,11 @@ __Parameters__
 __Example__
 ```java
 // Remove object.
-minioClient.removeObject(
+obstorClient.removeObject(
     RemoveObjectArgs.builder().bucket("my-bucketname").object("my-objectname").build());
 
 // Remove versioned object.
-minioClient.removeObject(
+obstorClient.removeObject(
     RemoveObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-versioned-objectname")
@@ -1827,7 +1827,7 @@ minioClient.removeObject(
         .build());
 
 // Remove versioned object bypassing Governance mode.
-minioClient.removeObject(
+obstorClient.removeObject(
     RemoveObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-versioned-objectname")
@@ -1838,7 +1838,7 @@ minioClient.removeObject(
 
 <a name="removeObjects"></a>
 ### removeObjects(RemoveObjectsArgs args)
-`public Iterable<Result<DeleteError>> removeObjects(RemoveObjectsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#removeObjects-io.minio.RemoveObjectsArgs-)_
+`public Iterable<Result<DeleteError>> removeObjects(RemoveObjectsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#removeObjects-net.obstor.RemoveObjectsArgs-)_
 
 Removes multiple objects lazily. Its required to iterate the returned Iterable to perform removal.
 
@@ -1858,7 +1858,7 @@ objects.add(new DeleteObject("my-objectname1"));
 objects.add(new DeleteObject("my-objectname2"));
 objects.add(new DeleteObject("my-objectname3"));
 Iterable<Result<DeleteError>> results =
-    minioClient.removeObjects(
+    obstorClient.removeObjects(
         RemoveObjectsArgs.builder().bucket("my-bucketname").objects(objects).build());
 for (Result<DeleteError> result : results) {
   DeleteError error = result.get();
@@ -1869,7 +1869,7 @@ for (Result<DeleteError> result : results) {
 
 <a name="restoreObject"></a>
 ### restoreObject(RestoreObjectArgs args)
-`public void restoreObject(RestoreObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#restoreObject-io.minio.RestoreObjectArgs-)_
+`public void restoreObject(RestoreObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#restoreObject-net.obstor.RestoreObjectArgs-)_
 
 Restores an object.
 
@@ -1881,7 +1881,7 @@ __Parameters__
 __Example__
 ```java
 // Restore object.
-minioClient.restoreObject(
+obstorClient.restoreObject(
     RestoreObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1889,7 +1889,7 @@ minioClient.restoreObject(
         .build());
 
 // Restore versioned object.
-minioClient.restoreObject(
+obstorClient.restoreObject(
     RestoreObjectArgs.builder()
         .bucket("my-bucketname")
         .object("my-versioned-objectname")
@@ -1900,7 +1900,7 @@ minioClient.restoreObject(
 
  <a name="selectObjectContent"></a>
 ### selectObjectContent(SelectObjectContentArgs args)
-`public SelectResponseStream selectObjectContent(SelectObjectContentArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#selectObjectContent-io.minio.SelectObjectContentArgs-)_
+`public SelectResponseStream selectObjectContent(SelectObjectContentArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#selectObjectContent-net.obstor.SelectObjectContentArgs-)_
 
 Selects content of a object by SQL expression.
 
@@ -1920,7 +1920,7 @@ String sqlExpression = "select * from S3Object";
 InputSerialization is = new InputSerialization(null, false, null, null, FileHeaderInfo.USE, null, null, null);
 OutputSerialization os = new OutputSerialization(null, null, null, QuoteFields.ASNEEDED, null);
 SelectResponseStream stream =
-    minioClient.selectObjectContent(
+    obstorClient.selectObjectContent(
         SelectObjectContentArgs.builder()
             .bucket("my-bucketname")
             .object("my-objectName")
@@ -1944,7 +1944,7 @@ stream.close();
 
 <a name="setObjectRetention"></a>
 ### setObjectRetention(SetObjectRetentionArgs args)
-`public void setObjectLockRetention(SetObjectRetentionArgs)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setObjectRetention-io.minio.SetObjectRetentionArgs-)_
+`public void setObjectLockRetention(SetObjectRetentionArgs)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setObjectRetention-net.obstor.SetObjectRetentionArgs-)_
 
 Sets retention configuration to an object.
 
@@ -1957,7 +1957,7 @@ Sets retention configuration to an object.
  __Example__
 ```java
 Retention retention = new Retention(RetentionMode.COMPLIANCE, ZonedDateTime.now().plusYears(1));
-minioClient.setObjectRetention(
+obstorClient.setObjectRetention(
     SetObjectRetentionArgs.builder()
         .bucket("my-bucketname")
         .object("my-objectname")
@@ -1968,7 +1968,7 @@ minioClient.setObjectRetention(
 
 <a name="setObjectTags"></a>
 ### setObjectTags(SetObjectTagsArgs args)
-`public void setObjectTags(SetObjectTagsArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#setObjectTags-io.minio.SetObjectTagsArgs-)_
+`public void setObjectTags(SetObjectTagsArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#setObjectTags-net.obstor.SetObjectTagsArgs-)_
 
 Sets tags to an object.
 
@@ -1983,13 +1983,13 @@ __Example__
 Map<String, String> map = new HashMap<>();
 map.put("Project", "Project One");
 map.put("User", "jsmith");
-minioClient.setObjectTags(
+obstorClient.setObjectTags(
     SetObjectTagsArgs.builder().bucket("my-bucketname").object("my-objectname").tags(map).build());
 ```
 
 <a name="statObject"></a>
 ### statObject(StatObjectArgs args)
-`public StatObjectResponse statObject(StatObjectArgs args)` _[[Javadoc]](http://minio.github.io/minio-java/io/minio/MinioClient.html#statObject-io.minio.StatObjectArgs-)_
+`public StatObjectResponse statObject(StatObjectArgs args)` _[[Javadoc]](http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#statObject-net.obstor.StatObjectArgs-)_
 
 Gets object information and metadata of an object.
 
@@ -2006,12 +2006,12 @@ __Example__
 ```java
 // Get information of an object.
 StatObjectResponse response =
-    minioClient.statObject(
+    obstorClient.statObject(
         StatObjectArgs.builder().bucket("my-bucketname").object("my-objectname").build());
 
 // Get information of SSE-C encrypted object.
 StatObjectResponse response =
-    minioClient.statObject(
+    obstorClient.statObject(
         StatObjectArgs.builder()
             .bucket("my-bucketname")
             .object("my-objectname")
@@ -2020,7 +2020,7 @@ StatObjectResponse response =
 
 // Get information of a versioned object.
 StatObjectResponse response =
-    minioClient.statObject(
+    obstorClient.statObject(
         StatObjectArgs.builder()
             .bucket("my-bucketname")
             .object("my-objectname")
@@ -2029,7 +2029,7 @@ StatObjectResponse response =
 
 // Get information of a SSE-C encrypted versioned object.
 StatObjectResponse response =
-    minioClient.statObject(
+    obstorClient.statObject(
         StatObjectArgs.builder()
             .bucket("my-bucketname")
             .object("my-objectname")
@@ -2039,106 +2039,106 @@ StatObjectResponse response =
 ```
 
 ## 5. Explore Further
-- [Build your own Photo API Service - Full Application Example ](https://github.com/minio/minio-java-rest-example)
-- [Complete JavaDoc](http://minio.github.io/minio-java/)
+- [Build your own Photo API Service - Full Application Example ](https://github.com/obstor/obstor-java-rest-example)
+- [Complete JavaDoc](http://obstor.github.io/obstor-java/)
 
-[constructor-1]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-
-[constructor-2]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.net.URL-
-[constructor-3]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-okhttp3.HttpUrl-
-[constructor-4]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-java.lang.String-java.lang.String-
-[constructor-5]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-int-java.lang.String-java.lang.String-
-[constructor-6]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-java.lang.String-java.lang.String-boolean-
-[constructor-7]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-int-java.lang.String-java.lang.String-java.lang.String-boolean-
-[constructor-8]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-okhttp3.HttpUrl-java.lang.String-java.lang.String-
-[constructor-9]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.net.URL-java.lang.String-java.lang.String-
-[constructor-10]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-java.lang.String-java.lang.String-java.lang.String-
-[constructor-11]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-int-java.lang.String-java.lang.String-java.lang.String-boolean-
-[constructor-12]: http://minio.github.io/minio-java/io/minio/MinioClient.html#MinioClient-java.lang.String-java.lang.Integer-java.lang.String-java.lang.String-java.lang.String-java.lang.Boolean-okhttp3.OkHttpClient-
-[NotificationConfiguration]: http://minio.github.io/minio-java/io/minio/messages/NotificationConfiguration.html
-[ObjectLockConfiguration]: http://minio.github.io/minio-java/io/minio/messages/ObjectLockConfiguration.html
-[Bucket]: http://minio.github.io/minio-java/io/minio/messages/Bucket.html
-[CloseableIterator]: http://minio.github.io/minio-java/io/minio/CloseableIterator.html
-[Result]: http://minio.github.io/minio-java/io/minio/Result.html
-[NotificationRecords]: http://minio.github.io/minio-java/io/minio/messages/NotificationRecords.html
-[Upload]: http://minio.github.io/minio-java/io/minio/messages/Upload.html
-[Item]: http://minio.github.io/minio-java/io/minio/messages/Item.html
-[ComposeSource]: http://minio.github.io/minio-java/io/minio/ComposeSource.html
-[ServerSideEncryption]: http://minio.github.io/minio-java/io/minio/ServerSideEncryption.html
-[ServerSideEncryptionCustomerKey]: http://minio.github.io/minio-java/io/minio/ServerSideEncryptionCustomerKey.html
-[CopyConditions]: http://minio.github.io/minio-java/io/minio/CopyConditions.html
-[PostPolicy]: http://minio.github.io/minio-java/io/minio/PostPolicy.html
-[PutObjectOptions]: http://minio.github.io/minio-java/io/minio/PutObjectOptions.html
-[InputSerialization]: http://minio.github.io/minio-java/io/minio/messages/InputSerialization.html
-[OutputSerialization]: http://minio.github.io/minio-java/io/minio/messages/OutputSerialization.html
-[Retention]: http://minio.github.io/minio-java/io/minio/messages/Retention.html
-[StatObjectResponse]: http://minio.github.io/minio-java/io/minio/StatObjectResponse.html
-[DeleteError]: http://minio.github.io/minio-java/io/minio/messages/DeleteError.html
-[SelectResponseStream]: http://minio.github.io/minio-java/io/minio/SelectResponseStream.html
-[MakeBucketArgs]: http://minio.github.io/minio-java/io/minio/MakeBucketArgs.html
-[ListObjectsArgs]: http://minio.github.io/minio-java/io/minio/ListObjectsArgs.html
-[RemoveBucketArgs]: http://minio.github.io/minio-java/io/minio/RemoveBucketArgs.html
-[SetObjectRetentionArgs]: http://minio.github.io/minio-java/io/minio/SetObjectRetentionArgs.html
-[GetObjectRetentionArgs]: http://minio.github.io/minio-java/io/minio/GetObjectRetentionArgs.html
-[Method]: http://minio.github.io/minio-java/io/minio/http/Method.html
-[StatObjectArgs]: http://minio.github.io/minio-java/io/minio/StatObjectArgs.html
-[RemoveObjectArgs]: http://minio.github.io/minio-java/io/minio/RemoveObjectArgs.html
-[SseConfiguration]: http://minio.github.io/minio-java/io/minio/messages/SseConfiguration.html
-[DeleteBucketEncryptionArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketEncryptionArgs.html
-[GetBucketEncryptionArgs]: http://minio.github.io/minio-java/io/minio/GetBucketEncryptionArgs.html
-[SetBucketEncryptionArgs]: http://minio.github.io/minio-java/io/minio/SetBucketEncryptionArgs.html
-[Tags]: http://minio.github.io/minio-java/io/minio/messages/Tags.html
-[DeleteBucketTagsArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketTagsArgs.html
-[GetBucketTagsArgs]: http://minio.github.io/minio-java/io/minio/GetBucketTagsArgs.html
-[SetBucketTagsArgs]: http://minio.github.io/minio-java/io/minio/SetBucketTagsArgs.html
-[DeleteObjectTagsArgs]: http://minio.github.io/minio-java/io/minio/DeleteObjectTagsArgs.html
-[GetObjectTagsArgs]: http://minio.github.io/minio-java/io/minio/GetObjectTagsArgs.html
-[SetObjectTagsArgs]: http://minio.github.io/minio-java/io/minio/SetObjectTagsArgs.html
-[LifecycleConfiguration]: http://minio.github.io/minio-java/io/minio/messages/LifecycleConfiguration.html
-[DeleteBucketLifecycleArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketLifecycleArgs.html
-[GetBucketLifecycleArgs]: http://minio.github.io/minio-java/io/minio/GetBucketLifecycleArgs.html
-[SetBucketLifecycleArgs]: http://minio.github.io/minio-java/io/minio/SetBucketLifecycleArgs.html
-[GetBucketPolicyArgs]: http://minio.github.io/minio-java/io/minio/GetBucketPolicyArgs.html
-[SetBucketPolicyArgs]: http://minio.github.io/minio-java/io/minio/SetBucketPolicyArgs.html
-[DeleteBucketPolicyArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketPolicyArgs.html
-[GetObjectArgs]: http://minio.github.io/minio-java/io/minio/GetObjectArgs.html
-[DownloadObjectArgs]: http://minio.github.io/minio-java/io/minio/DownloadObjectArgs.html
-[BucketExistsArgs]: http://minio.github.io/minio-java/io/minio/BucketExistsArgs.html
-[EnableObjectLegalHoldArgs]: http://minio.github.io/minio-java/io/minio/EnableObjectLegalHoldArgs.html
-[DisableObjectLegalHoldArgs]: http://minio.github.io/minio-java/io/minio/DisableObjectLegalHoldArgs.html
-[IsObjectLegalHoldEnabledArgs]: http://minio.github.io/minio-java/io/minio/IsObjectLegalHoldEnabledArgs.html
-[DeleteBucketNotificationArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketNotificationArgs.html
-[GetBucketNotificationArgs]: http://minio.github.io/minio-java/io/minio/GetBucketNotificationArgs.html
-[SetBucketNotificationArgs]: http://minio.github.io/minio-java/io/minio/SetBucketNotificationArgs.html
-[ListenBucketNotificationArgs]: http://minio.github.io/minio-java/io/minio/ListenBucketNotificationArgs.html
-[SelectObjectContentArgs]: http://minio.github.io/minio-java/io/minio/SelectObjectContentArgs.html
-[GetObjectLockConfigurationArgs]: http://minio.github.io/minio-java/io/minio/GetObjectLockConfigurationArgs.html
-[SetObjectLockConfigurationArgs]: http://minio.github.io/minio-java/io/minio/SetObjectLockConfigurationArgs.html
-[DeleteObjectLockConfigurationArgs]: http://minio.github.io/minio-java/io/minio/DeleteObjectLockConfigurationArgs.html
-[GetPresignedObjectUrlArgs]: http://minio.github.io/minio-java/io/minio/GetPresignedObjectUrlArgs.html
-[RemoveObjectsArgs]: http://minio.github.io/minio-java/io/minio/RemoveObjectsArgs.html
-[CopyObjectArgs]: http://minio.github.io/minio-java/io/minio/CopyObjectArgs.html
-[PutObjectArgs]: http://minio.github.io/minio-java/io/minio/PutObjectArgs.html
-[UploadObjectArgs]: http://minio.github.io/minio-java/io/minio/UploadObjectArgs.html
-[UploadSnowballObjectsArgs]: http://minio.github.io/minio-java/io/minio/UploadSnowballObjectsArgs.html
-[ComposeObjectArgs]: http://minio.github.io/minio-java/io/minio/ComposeObjectArgs.html
-[ObjectWriteResponse]: http://minio.github.io/minio-java/io/minio/ObjectWriteResponse.html
-[ListBucketsArgs]: http://minio.github.io/minio-java/io/minio/ListBucketsArgs.html
-[DeleteBucketReplicationArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketReplicationArgs.html
-[GetBucketReplicationArgs]: http://minio.github.io/minio-java/io/minio/GetBucketReplicationArgs.html
-[SetBucketReplicationArgs]: http://minio.github.io/minio-java/io/minio/SetBucketReplicationArgs.html
-[ReplicationConfiguration]: http://minio.github.io/minio-java/io/minio/messages/ReplicationConfiguration.html
-[VersioningConfiguration]: http://minio.github.io/minio-java/io/minio/messages/VersioningConfiguration.html
-[GetBucketVersioningArgs]: http://minio.github.io/minio-java/io/minio/GetBucketVersioningArgs.html
-[SetBucketVersioningArgs]: http://minio.github.io/minio-java/io/minio/SetBucketVersioningArgs.html
-[RestoreObjectArgs]: http://minio.github.io/minio-java/io/minio/RestoreObjectArgs.html
-[DeleteBucketCorsArgs]: http://minio.github.io/minio-java/io/minio/DeleteBucketCorsArgs.html
-[GetBucketCorsArgs]: http://minio.github.io/minio-java/io/minio/GetBucketCorsArgs.html
-[SetBucketCorsArgs]: http://minio.github.io/minio-java/io/minio/SetBucketCorsArgs.html
-[GetObjectAclArgs]: http://minio.github.io/minio-java/io/minio/GetObjectAclArgs.html
-[AccessControlPolicy]: http://minio.github.io/minio-java/io/minio/messages/AccessControlPolicy.html
-[GetObjectAttributesArgs]: http://minio.github.io/minio-java/io/minio/GetObjectAttributesArgs.html
-[GetObjectAttributesResponse]: http://minio.github.io/minio-java/io/minio/GetObjectAttributesResponse.html
-[PutObjectFanOutArgs]: http://minio.github.io/minio-java/io/minio/PutObjectFanOutArgs.html
-[PutObjectFanOutResponse]: http://minio.github.io/minio-java/io/minio/PutObjectFanOutResponse.html
-[PromptObjectArgs]: http://minio.github.io/minio-java/io/minio/PromptObjectArgs.html
-[PromptObjectResponse]: http://minio.github.io/minio-java/io/minio/PromptObjectResponse.html
+[constructor-1]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-
+[constructor-2]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.net.URL-
+[constructor-3]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-okhttp3.HttpUrl-
+[constructor-4]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-java.lang.String-java.lang.String-
+[constructor-5]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-int-java.lang.String-java.lang.String-
+[constructor-6]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-java.lang.String-java.lang.String-boolean-
+[constructor-7]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-int-java.lang.String-java.lang.String-java.lang.String-boolean-
+[constructor-8]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-okhttp3.HttpUrl-java.lang.String-java.lang.String-
+[constructor-9]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.net.URL-java.lang.String-java.lang.String-
+[constructor-10]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-java.lang.String-java.lang.String-java.lang.String-
+[constructor-11]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-int-java.lang.String-java.lang.String-java.lang.String-boolean-
+[constructor-12]: http://obstor.github.io/obstor-java/net/obstor/ObstorClient.html#ObstorClient-java.lang.String-java.lang.Integer-java.lang.String-java.lang.String-java.lang.String-java.lang.Boolean-okhttp3.OkHttpClient-
+[NotificationConfiguration]: http://obstor.github.io/obstor-java/net/obstor/messages/NotificationConfiguration.html
+[ObjectLockConfiguration]: http://obstor.github.io/obstor-java/net/obstor/messages/ObjectLockConfiguration.html
+[Bucket]: http://obstor.github.io/obstor-java/net/obstor/messages/Bucket.html
+[CloseableIterator]: http://obstor.github.io/obstor-java/net/obstor/CloseableIterator.html
+[Result]: http://obstor.github.io/obstor-java/net/obstor/Result.html
+[NotificationRecords]: http://obstor.github.io/obstor-java/net/obstor/messages/NotificationRecords.html
+[Upload]: http://obstor.github.io/obstor-java/net/obstor/messages/Upload.html
+[Item]: http://obstor.github.io/obstor-java/net/obstor/messages/Item.html
+[ComposeSource]: http://obstor.github.io/obstor-java/net/obstor/ComposeSource.html
+[ServerSideEncryption]: http://obstor.github.io/obstor-java/net/obstor/ServerSideEncryption.html
+[ServerSideEncryptionCustomerKey]: http://obstor.github.io/obstor-java/net/obstor/ServerSideEncryptionCustomerKey.html
+[CopyConditions]: http://obstor.github.io/obstor-java/net/obstor/CopyConditions.html
+[PostPolicy]: http://obstor.github.io/obstor-java/net/obstor/PostPolicy.html
+[PutObjectOptions]: http://obstor.github.io/obstor-java/net/obstor/PutObjectOptions.html
+[InputSerialization]: http://obstor.github.io/obstor-java/net/obstor/messages/InputSerialization.html
+[OutputSerialization]: http://obstor.github.io/obstor-java/net/obstor/messages/OutputSerialization.html
+[Retention]: http://obstor.github.io/obstor-java/net/obstor/messages/Retention.html
+[StatObjectResponse]: http://obstor.github.io/obstor-java/net/obstor/StatObjectResponse.html
+[DeleteError]: http://obstor.github.io/obstor-java/net/obstor/messages/DeleteError.html
+[SelectResponseStream]: http://obstor.github.io/obstor-java/net/obstor/SelectResponseStream.html
+[MakeBucketArgs]: http://obstor.github.io/obstor-java/net/obstor/MakeBucketArgs.html
+[ListObjectsArgs]: http://obstor.github.io/obstor-java/net/obstor/ListObjectsArgs.html
+[RemoveBucketArgs]: http://obstor.github.io/obstor-java/net/obstor/RemoveBucketArgs.html
+[SetObjectRetentionArgs]: http://obstor.github.io/obstor-java/net/obstor/SetObjectRetentionArgs.html
+[GetObjectRetentionArgs]: http://obstor.github.io/obstor-java/net/obstor/GetObjectRetentionArgs.html
+[Method]: http://obstor.github.io/obstor-java/net/obstor/http/Method.html
+[StatObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/StatObjectArgs.html
+[RemoveObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/RemoveObjectArgs.html
+[SseConfiguration]: http://obstor.github.io/obstor-java/net/obstor/messages/SseConfiguration.html
+[DeleteBucketEncryptionArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketEncryptionArgs.html
+[GetBucketEncryptionArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketEncryptionArgs.html
+[SetBucketEncryptionArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketEncryptionArgs.html
+[Tags]: http://obstor.github.io/obstor-java/net/obstor/messages/Tags.html
+[DeleteBucketTagsArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketTagsArgs.html
+[GetBucketTagsArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketTagsArgs.html
+[SetBucketTagsArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketTagsArgs.html
+[DeleteObjectTagsArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteObjectTagsArgs.html
+[GetObjectTagsArgs]: http://obstor.github.io/obstor-java/net/obstor/GetObjectTagsArgs.html
+[SetObjectTagsArgs]: http://obstor.github.io/obstor-java/net/obstor/SetObjectTagsArgs.html
+[LifecycleConfiguration]: http://obstor.github.io/obstor-java/net/obstor/messages/LifecycleConfiguration.html
+[DeleteBucketLifecycleArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketLifecycleArgs.html
+[GetBucketLifecycleArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketLifecycleArgs.html
+[SetBucketLifecycleArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketLifecycleArgs.html
+[GetBucketPolicyArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketPolicyArgs.html
+[SetBucketPolicyArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketPolicyArgs.html
+[DeleteBucketPolicyArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketPolicyArgs.html
+[GetObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/GetObjectArgs.html
+[DownloadObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/DownloadObjectArgs.html
+[BucketExistsArgs]: http://obstor.github.io/obstor-java/net/obstor/BucketExistsArgs.html
+[EnableObjectLegalHoldArgs]: http://obstor.github.io/obstor-java/net/obstor/EnableObjectLegalHoldArgs.html
+[DisableObjectLegalHoldArgs]: http://obstor.github.io/obstor-java/net/obstor/DisableObjectLegalHoldArgs.html
+[IsObjectLegalHoldEnabledArgs]: http://obstor.github.io/obstor-java/net/obstor/IsObjectLegalHoldEnabledArgs.html
+[DeleteBucketNotificationArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketNotificationArgs.html
+[GetBucketNotificationArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketNotificationArgs.html
+[SetBucketNotificationArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketNotificationArgs.html
+[ListenBucketNotificationArgs]: http://obstor.github.io/obstor-java/net/obstor/ListenBucketNotificationArgs.html
+[SelectObjectContentArgs]: http://obstor.github.io/obstor-java/net/obstor/SelectObjectContentArgs.html
+[GetObjectLockConfigurationArgs]: http://obstor.github.io/obstor-java/net/obstor/GetObjectLockConfigurationArgs.html
+[SetObjectLockConfigurationArgs]: http://obstor.github.io/obstor-java/net/obstor/SetObjectLockConfigurationArgs.html
+[DeleteObjectLockConfigurationArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteObjectLockConfigurationArgs.html
+[GetPresignedObjectUrlArgs]: http://obstor.github.io/obstor-java/net/obstor/GetPresignedObjectUrlArgs.html
+[RemoveObjectsArgs]: http://obstor.github.io/obstor-java/net/obstor/RemoveObjectsArgs.html
+[CopyObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/CopyObjectArgs.html
+[PutObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/PutObjectArgs.html
+[UploadObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/UploadObjectArgs.html
+[UploadSnowballObjectsArgs]: http://obstor.github.io/obstor-java/net/obstor/UploadSnowballObjectsArgs.html
+[ComposeObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/ComposeObjectArgs.html
+[ObjectWriteResponse]: http://obstor.github.io/obstor-java/net/obstor/ObjectWriteResponse.html
+[ListBucketsArgs]: http://obstor.github.io/obstor-java/net/obstor/ListBucketsArgs.html
+[DeleteBucketReplicationArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketReplicationArgs.html
+[GetBucketReplicationArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketReplicationArgs.html
+[SetBucketReplicationArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketReplicationArgs.html
+[ReplicationConfiguration]: http://obstor.github.io/obstor-java/net/obstor/messages/ReplicationConfiguration.html
+[VersioningConfiguration]: http://obstor.github.io/obstor-java/net/obstor/messages/VersioningConfiguration.html
+[GetBucketVersioningArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketVersioningArgs.html
+[SetBucketVersioningArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketVersioningArgs.html
+[RestoreObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/RestoreObjectArgs.html
+[DeleteBucketCorsArgs]: http://obstor.github.io/obstor-java/net/obstor/DeleteBucketCorsArgs.html
+[GetBucketCorsArgs]: http://obstor.github.io/obstor-java/net/obstor/GetBucketCorsArgs.html
+[SetBucketCorsArgs]: http://obstor.github.io/obstor-java/net/obstor/SetBucketCorsArgs.html
+[GetObjectAclArgs]: http://obstor.github.io/obstor-java/net/obstor/GetObjectAclArgs.html
+[AccessControlPolicy]: http://obstor.github.io/obstor-java/net/obstor/messages/AccessControlPolicy.html
+[GetObjectAttributesArgs]: http://obstor.github.io/obstor-java/net/obstor/GetObjectAttributesArgs.html
+[GetObjectAttributesResponse]: http://obstor.github.io/obstor-java/net/obstor/GetObjectAttributesResponse.html
+[PutObjectFanOutArgs]: http://obstor.github.io/obstor-java/net/obstor/PutObjectFanOutArgs.html
+[PutObjectFanOutResponse]: http://obstor.github.io/obstor-java/net/obstor/PutObjectFanOutResponse.html
+[PromptObjectArgs]: http://obstor.github.io/obstor-java/net/obstor/PromptObjectArgs.html
+[PromptObjectResponse]: http://obstor.github.io/obstor-java/net/obstor/PromptObjectResponse.html

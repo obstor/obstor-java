@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import io.minio.MinioClient;
-import io.minio.PostPolicy;
-import io.minio.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.PostPolicy;
+import net.obstor.errors.ObstorException;
 import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -28,18 +28,18 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class GetPresignedPostFormData {
-  /** MinioClient.presignedPostPolicy() example. */
-  public static void main(String[] args) throws IOException, MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.presignedPostPolicy() example. */
+  public static void main(String[] args) throws IOException, ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -56,7 +56,7 @@ public class GetPresignedPostFormData {
     // Add condition that 'content-length-range' is between 64kiB to 10MiB.
     policy.addContentLengthRangeCondition(64 * 1024, 10 * 1024 * 1024);
 
-    Map<String, String> formData = minioClient.getPresignedPostFormData(policy);
+    Map<String, String> formData = obstorClient.getPresignedPostFormData(policy);
 
     // Upload an image using POST object with form-data.
     MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
@@ -73,7 +73,7 @@ public class GetPresignedPostFormData {
 
     Request request =
         new Request.Builder()
-            .url("https://play.min.io/my-bucket")
+            .url("https://demo.obstor.net/my-bucket")
             .post(multipartBuilder.build())
             .build();
     OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
@@ -90,6 +90,6 @@ public class GetPresignedPostFormData {
       System.out.print(" -F " + entry.getKey() + "=" + entry.getValue());
     }
     System.out.print(" -F key=my-object -F Content-Type=image/jpg");
-    System.out.println(" -F file=@/tmp/userpic.jpg https://play.min.io/my-bucket");
+    System.out.println(" -F file=@/tmp/userpic.jpg https://demo.obstor.net/my-bucket");
   }
 }

@@ -18,11 +18,11 @@
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
 
-import io.minio.Checksum;
-import io.minio.Http;
-import io.minio.ServerSideEncryption;
-import io.minio.errors.ErrorResponseException;
-import io.minio.errors.MinioException;
+import net.obstor.Checksum;
+import net.obstor.Http;
+import net.obstor.ServerSideEncryption;
+import net.obstor.errors.ErrorResponseException;
+import net.obstor.errors.ObstorException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,7 @@ import org.junit.jupiter.api.Assertions;
     value = "THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION")
 public class TestArgs {
   public static final String OS = System.getProperty("os.name").toLowerCase(Locale.US);
-  public static final String MINIO_BINARY = OS.contains("windows") ? "minio.exe" : "minio";
+  public static final String OBSTOR_BINARY = OS.contains("windows") ? "obstor.exe" : "obstor";
   public static final String PASS = "PASS";
   public static final String FAILED = "FAIL";
   public static final String IGNORED = "NA";
@@ -77,7 +77,7 @@ public class TestArgs {
       KeyGenerator keyGen = KeyGenerator.getInstance("AES");
       keyGen.init(256);
       SSE_C = new ServerSideEncryption.CustomerKey(keyGen.generateKey());
-    } catch (NoSuchAlgorithmException | MinioException e) {
+    } catch (NoSuchAlgorithmException | ObstorException e) {
       throw new IllegalStateException(e);
     }
 
@@ -94,9 +94,9 @@ public class TestArgs {
         (MINT_ENV && dataDir != null && !dataDir.isEmpty())
             ? Paths.get(dataDir, "datafile-6-MB")
             : null;
-    REPLICATION_SRC_BUCKET = System.getenv("MINIO_JAVA_TEST_REPLICATION_SRC_BUCKET");
-    REPLICATION_ROLE = System.getenv("MINIO_JAVA_TEST_REPLICATION_ROLE");
-    REPLICATION_BUCKET_ARN = System.getenv("MINIO_JAVA_TEST_REPLICATION_BUCKET_ARN");
+    REPLICATION_SRC_BUCKET = System.getenv("OBSTOR_JAVA_TEST_REPLICATION_SRC_BUCKET");
+    REPLICATION_ROLE = System.getenv("OBSTOR_JAVA_TEST_REPLICATION_ROLE");
+    REPLICATION_BUCKET_ARN = System.getenv("OBSTOR_JAVA_TEST_REPLICATION_BUCKET_ARN");
   }
 
   public boolean automated;
@@ -122,22 +122,22 @@ public class TestArgs {
   }
 
   public TestArgs(String endpoint, String accessKey, String secretKey, String region)
-      throws MinioException {
+      throws ObstorException {
     this.automated = endpoint == null;
 
-    String kmsKeyName = "my-minio-key";
+    String kmsKeyName = "my-obstor-key";
     if (endpoint == null) {
       this.endpoint = "http://localhost:9000";
       this.endpointTLS = "https://localhost:9001";
-      this.accessKey = "minio";
-      this.secretKey = "minio123";
+      this.accessKey = "obstor";
+      this.secretKey = "obstor123";
       this.region = "us-east-1";
-      this.sqsArn = "arn:minio:sqs::miniojavatest:webhook";
+      this.sqsArn = "arn:obstor:sqs::obstorjavatest:webhook";
     } else {
-      if ((kmsKeyName = System.getenv("MINIO_JAVA_TEST_KMS_KEY_NAME")) == null) {
+      if ((kmsKeyName = System.getenv("OBSTOR_JAVA_TEST_KMS_KEY_NAME")) == null) {
         kmsKeyName = System.getenv("MINT_KEY_ID");
       }
-      this.sqsArn = System.getenv("MINIO_JAVA_TEST_SQS_ARN");
+      this.sqsArn = System.getenv("OBSTOR_JAVA_TEST_SQS_ARN");
       this.endpoint = endpoint;
       this.accessKey = accessKey;
       this.secretKey = secretKey;
@@ -155,7 +155,7 @@ public class TestArgs {
   public static OkHttpClient newHttpClient() {
     try {
       return Http.disableCertCheck(Http.newDefaultClient());
-    } catch (MinioException e) {
+    } catch (ObstorException e) {
       throw new IllegalStateException(e);
     }
   }
@@ -207,7 +207,7 @@ public class TestArgs {
 
   /** Generate random name. */
   public static String getRandomName() {
-    return "minio-java-test-" + new BigInteger(32, RANDOM).toString(32);
+    return "obstor-java-test-" + new BigInteger(32, RANDOM).toString(32);
   }
 
   /** Returns byte array contains all data in given InputStream. */
@@ -344,32 +344,32 @@ public class TestArgs {
     throw e;
   }
 
-  public static boolean downloadMinioServer() throws IOException {
-    String url = "https://dl.min.io/server/minio/release/";
+  public static boolean downloadObstorServer() throws IOException {
+    String url = "https://dl.pgg.net/server/obstor/release/";
     if (OS.contains("linux")) {
-      url += "linux-amd64/minio";
+      url += "linux-amd64/obstor";
     } else if (OS.contains("windows")) {
-      url += "windows-amd64/minio.exe";
+      url += "windows-amd64/obstor.exe";
     } else if (OS.contains("mac")) {
-      url += "darwin-amd64/minio";
+      url += "darwin-amd64/obstor";
     } else {
       System.out.println("unknown operating system " + OS);
       return false;
     }
 
-    File file = new File(MINIO_BINARY);
+    File file = new File(OBSTOR_BINARY);
     if (file.exists()) return true;
 
-    System.out.println("downloading " + MINIO_BINARY + " binary");
+    System.out.println("downloading " + OBSTOR_BINARY + " binary");
 
     Request request = new Request.Builder().url(HttpUrl.parse(url)).method("GET", null).build();
     try (Response response = newHttpClient().newCall(request).execute()) {
       if (!response.isSuccessful()) {
-        System.out.println("failed to download binary " + MINIO_BINARY);
+        System.out.println("failed to download binary " + OBSTOR_BINARY);
         return false;
       }
 
-      BufferedSink bufferedSink = Okio.buffer(Okio.sink(new File(MINIO_BINARY)));
+      BufferedSink bufferedSink = Okio.buffer(Okio.sink(new File(OBSTOR_BINARY)));
       bufferedSink.writeAll(response.body().source());
       bufferedSink.flush();
       bufferedSink.close();
@@ -380,8 +380,8 @@ public class TestArgs {
     return true;
   }
 
-  public static Process runMinioServer(boolean tls) throws Exception {
-    File binaryPath = new File(new File(System.getProperty("user.dir")), MINIO_BINARY);
+  public static Process runObstorServer(boolean tls) throws Exception {
+    File binaryPath = new File(new File(System.getProperty("user.dir")), OBSTOR_BINARY);
     ProcessBuilder pb;
     if (tls) {
       pb =
@@ -398,21 +398,21 @@ public class TestArgs {
     }
 
     Map<String, String> env = pb.environment();
-    env.put("MINIO_ROOT_USER", "minio");
-    env.put("MINIO_ROOT_PASSWORD", "minio123");
-    env.put("MINIO_CI_CD", "1");
+    env.put("OBSTOR_ROOT_USER", "obstor");
+    env.put("OBSTOR_ROOT_PASSWORD", "obstor123");
+    env.put("OBSTOR_CI_CD", "1");
     // echo -n abcdefghijklmnopqrstuvwxyzABCDEF | base64 -
-    env.put("MINIO_KMS_SECRET_KEY", "my-minio-key:YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUY=");
-    env.put("MINIO_NOTIFY_WEBHOOK_ENABLE_miniojavatest", "on");
-    env.put("MINIO_NOTIFY_WEBHOOK_ENDPOINT_miniojavatest", "http://example.org/");
+    env.put("OBSTOR_KMS_SECRET_KEY", "my-obstor-key:YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUY=");
+    env.put("OBSTOR_NOTIFY_WEBHOOK_ENABLE_obstorjavatest", "on");
+    env.put("OBSTOR_NOTIFY_WEBHOOK_ENDPOINT_obstorjavatest", "http://example.org/");
 
     pb.redirectErrorStream(true);
-    pb.redirectOutput(ProcessBuilder.Redirect.to(new File(MINIO_BINARY + ".log")));
+    pb.redirectOutput(ProcessBuilder.Redirect.to(new File(OBSTOR_BINARY + ".log")));
 
     if (tls) {
-      System.out.println("starting minio server in TLS");
+      System.out.println("starting obstor server in TLS");
     } else {
-      System.out.println("starting minio server");
+      System.out.println("starting obstor server");
     }
     Process p = pb.start();
     Thread.sleep(10 * 1000); // wait for 10 seconds to do real start.

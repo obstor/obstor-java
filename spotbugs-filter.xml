@@ -20,7 +20,7 @@
   <Match>
     <Bug pattern="EI_EXPOSE_REP2"/>
   </Match>
-  <!-- False positive in many cases: minio-java does not shadow the publicly available identifier from the Java Standard Library by packaging them under io.minio. -->
+  <!-- False positive in many cases: obstor-java does not shadow the publicly available identifier from the Java Standard Library by packaging them under net.obstor. -->
   <Match>
     <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES"/>
   </Match>

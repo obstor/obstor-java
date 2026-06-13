@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-import io.minio.BucketExistsArgs;
-import io.minio.MinioClient;
-import io.minio.RemoveBucketArgs;
-import io.minio.errors.MinioException;
+import net.obstor.BucketExistsArgs;
+import net.obstor.ObstorClient;
+import net.obstor.RemoveBucketArgs;
+import net.obstor.errors.ObstorException;
 
 public class RemoveBucket {
-  /** MinioClient.removeBucket() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.removeBucket() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -39,9 +39,9 @@ public class RemoveBucket {
     // Remove bucket 'my-bucket' if it exists.
     // This operation will only work if your bucket is empty.
     boolean found =
-        minioClient.bucketExists(BucketExistsArgs.builder().bucket("my-bucket").build());
+        obstorClient.bucketExists(BucketExistsArgs.builder().bucket("my-bucket").build());
     if (found) {
-      minioClient.removeBucket(RemoveBucketArgs.builder().bucket("my-bucket").build());
+      obstorClient.removeBucket(RemoveBucketArgs.builder().bucket("my-bucket").build());
       System.out.println("my-bucket is removed successfully");
     } else {
       System.out.println("my-bucket does not exist");

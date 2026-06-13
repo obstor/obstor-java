@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import io.minio.ListObjectsArgs;
-import io.minio.MinioClient;
-import io.minio.Result;
-import io.minio.errors.MinioException;
-import io.minio.messages.Item;
+import net.obstor.ListObjectsArgs;
+import net.obstor.ObstorClient;
+import net.obstor.Result;
+import net.obstor.errors.ObstorException;
+import net.obstor.messages.Item;
 
 public class ListObjects {
-  /** MinioClient.listObjects() example. */
-  public static void main(String[] args) throws MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.listObjects() example. */
+  public static void main(String[] args) throws ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -40,7 +40,7 @@ public class ListObjects {
     {
       // Lists objects information.
       Iterable<Result<Item>> results =
-          minioClient.listObjects(ListObjectsArgs.builder().bucket("my-bucket").build());
+          obstorClient.listObjects(ListObjectsArgs.builder().bucket("my-bucket").build());
 
       for (Result<Item> result : results) {
         Item item = result.get();
@@ -51,7 +51,7 @@ public class ListObjects {
     {
       // Lists objects information recursively.
       Iterable<Result<Item>> results =
-          minioClient.listObjects(
+          obstorClient.listObjects(
               ListObjectsArgs.builder().bucket("my-bucket").recursive(true).build());
 
       for (Result<Item> result : results) {
@@ -64,7 +64,7 @@ public class ListObjects {
       // Lists maximum 100 objects information those names starts with 'E' and after
       // 'ExampleGuide.pdf'.
       Iterable<Result<Item>> results =
-          minioClient.listObjects(
+          obstorClient.listObjects(
               ListObjectsArgs.builder()
                   .bucket("my-bucket")
                   .startAfter("ExampleGuide.pdf")
@@ -82,7 +82,7 @@ public class ListObjects {
       // Lists maximum 100 objects information with version those names starts with 'E' and after
       // 'ExampleGuide.pdf'.
       Iterable<Result<Item>> results =
-          minioClient.listObjects(
+          obstorClient.listObjects(
               ListObjectsArgs.builder()
                   .bucket("my-bucket")
                   .startAfter("ExampleGuide.pdf")

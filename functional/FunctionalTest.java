@@ -1,13 +1,13 @@
-import io.minio.MinioClient;
-import io.minio.admin.MinioAdminClient;
+import net.obstor.ObstorClient;
+import net.obstor.admin.ObstorAdminClient;
 
 public class FunctionalTest {
   public static void runS3Tests(TestArgs args) throws Exception {
     if (!args.MINT_ENV) System.out.println(">>> Running S3 tests:");
-    new TestMinioClient(
+    new TestObstorClient(
             args,
             args.IS_QUICK_TEST,
-            MinioClient.builder()
+            ObstorClient.builder()
                 .endpoint(args.endpoint)
                 .credentials(args.accessKey, args.secretKey)
                 .build())
@@ -18,22 +18,22 @@ public class FunctionalTest {
         System.out.println();
         System.out.println(">>> Running S3 tests on TLS endpoint:");
       }
-      MinioClient client =
-          MinioClient.builder()
+      ObstorClient client =
+          ObstorClient.builder()
               .endpoint(args.endpointTLS)
               .credentials(args.accessKey, args.secretKey)
               .build();
       client.ignoreCertCheck();
-      new TestMinioClient(args, args.IS_QUICK_TEST, client).runTests();
+      new TestObstorClient(args, args.IS_QUICK_TEST, client).runTests();
     }
 
     if (!args.MINT_ENV) {
       System.out.println();
       System.out.println(">>> Running quick tests specific region:");
-      new TestMinioClient(
+      new TestObstorClient(
               args,
               true,
-              MinioClient.builder()
+              ObstorClient.builder()
                   .endpoint(args.endpoint)
                   .credentials(args.accessKey, args.secretKey)
                   .region(args.region)
@@ -42,13 +42,13 @@ public class FunctionalTest {
     }
   }
 
-  public static void runMinioAdminTests(TestArgs args) throws Exception {
+  public static void runObstorAdminTests(TestArgs args) throws Exception {
     if (!args.MINT_ENV) {
       System.out.println();
-      System.out.println(">>> Running MinIO admin API tests:");
-      new TestMinioAdminClient(
+      System.out.println(">>> Running Obstor admin API tests:");
+      new TestObstorAdminClient(
               args,
-              MinioAdminClient.builder()
+              ObstorAdminClient.builder()
                   .endpoint(args.endpoint)
                   .credentials(args.accessKey, args.secretKey)
                   .build())
@@ -58,7 +58,7 @@ public class FunctionalTest {
 
   public static void runTests(TestArgs args) throws Exception {
     runS3Tests(args);
-    runMinioAdminTests(args);
+    runObstorAdminTests(args);
   }
 
   public static void main(String[] args) throws Exception {
@@ -74,28 +74,28 @@ public class FunctionalTest {
     }
     TestArgs testArgs = new TestArgs(endpoint, accessKey, secretKey, region);
 
-    Process minioProcess = null;
-    Process minioProcessTLS = null;
+    Process obstorProcess = null;
+    Process obstorProcessTLS = null;
     if (args.length != 4) {
-      if (!TestArgs.downloadMinioServer()) {
+      if (!TestArgs.downloadObstorServer()) {
         System.out.println("usage: FunctionalTest <ENDPOINT> <ACCESSKEY> <SECRETKEY> <REGION>");
         System.exit(-1);
       }
 
-      minioProcess = TestArgs.runMinioServer(false);
+      obstorProcess = TestArgs.runObstorServer(false);
       try {
-        int exitValue = minioProcess.exitValue();
-        System.out.println("minio server process exited with " + exitValue);
+        int exitValue = obstorProcess.exitValue();
+        System.out.println("obstor server process exited with " + exitValue);
         System.out.println("usage: FunctionalTest <ENDPOINT> <ACCESSKEY> <SECRETKEY> <REGION>");
         System.exit(-1);
       } catch (IllegalThreadStateException e) {
         TestArgs.ignore();
       }
 
-      minioProcessTLS = TestArgs.runMinioServer(true);
+      obstorProcessTLS = TestArgs.runObstorServer(true);
       try {
-        int exitValue = minioProcessTLS.exitValue();
-        System.out.println("minio server process exited with " + exitValue);
+        int exitValue = obstorProcessTLS.exitValue();
+        System.out.println("obstor server process exited with " + exitValue);
         System.out.println("usage: FunctionalTest <ENDPOINT> <ACCESSKEY> <SECRETKEY> <REGION>");
         System.exit(-1);
       } catch (IllegalThreadStateException e) {
@@ -110,8 +110,8 @@ public class FunctionalTest {
       if (!testArgs.MINT_ENV) e.printStackTrace();
       exitValue = -1;
     } finally {
-      if (minioProcess != null) minioProcess.destroy();
-      if (minioProcessTLS != null) minioProcessTLS.destroy();
+      if (obstorProcess != null) obstorProcess.destroy();
+      if (obstorProcessTLS != null) obstorProcessTLS.destroy();
     }
 
     System.exit(exitValue);

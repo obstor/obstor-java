@@ -15,11 +15,11 @@
  */
 
 import com.google.common.io.ByteStreams;
-import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
-import io.minio.errors.MinioException;
+import net.obstor.GetObjectArgs;
+import net.obstor.ObstorClient;
+import net.obstor.StatObjectArgs;
+import net.obstor.StatObjectResponse;
+import net.obstor.errors.ObstorException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,18 +29,18 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class GetObjectProgressBar {
-  /** MinioClient.getObjectProgressBar() example. */
-  public static void main(String[] args) throws IOException, MinioException {
-    /* play.min.io for test and development. */
-    MinioClient minioClient =
-        MinioClient.builder()
-            .endpoint("https://play.min.io")
+  /** ObstorClient.getObjectProgressBar() example. */
+  public static void main(String[] args) throws IOException, ObstorException {
+    /* demo.obstor.net for test and development. */
+    ObstorClient obstorClient =
+        ObstorClient.builder()
+            .endpoint("https://demo.obstor.net")
             .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
             .build();
 
     /* Amazon S3: */
-    // MinioClient minioClient =
-    //     MinioClient.builder()
+    // ObstorClient obstorClient =
+    //     ObstorClient.builder()
     //         .endpoint("https://s3.amazonaws.com")
     //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
     //         .build();
@@ -51,7 +51,7 @@ public class GetObjectProgressBar {
 
     // Get object stat information.
     StatObjectResponse stat =
-        minioClient.statObject(
+        obstorClient.statObject(
             StatObjectArgs.builder().bucket("testbucket").object("resumes/4.original.pdf").build());
 
     // Get input stream to have content of 'my-object' from 'my-bucket'
@@ -59,7 +59,7 @@ public class GetObjectProgressBar {
         new ProgressStream(
             "Downloading .. ",
             stat.size(),
-            minioClient.getObject(
+            obstorClient.getObject(
                 GetObjectArgs.builder().bucket("my-bucket").object("my-object").build()));
 
     Path path = Paths.get("my-filename");
