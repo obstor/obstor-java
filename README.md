@@ -100,8 +100,8 @@ $ javac -cp obstor-9.0.2-all.jar FileUploader.java
 $ java -cp obstor-9.0.2-all.jar:. FileUploader
 '/home/user/Photos/asiaphotos.zip' is successfully uploaded as object 'asiaphotos-2015.zip' to bucket 'asiatrip'.
 
-$ mc ls demo/asiatrip/
-[2016-06-02 18:10:29 PDT]  82KiB asiaphotos-2015.zip
+$ rclone ls obstor:asiatrip/
+    82944 asiaphotos-2015.zip
 ```
 
 ## More References

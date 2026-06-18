@@ -20,8 +20,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Base environment provider of {@link AwsConfigProvider}, {@link ObstorClientConfigProvider}, {@link
- * AwsEnvironmentProvider}, {@link ObstorEnvironmentProvider} and {@link IamAwsProvider}.
+ * Base environment provider of {@link AwsConfigProvider}, {@link AwsEnvironmentProvider}, {@link
+ * ObstorEnvironmentProvider} and {@link IamAwsProvider}.
  */
 public abstract class EnvironmentProvider implements Provider {
   /** Get value of a property from system property or environment variable. */

@@ -826,6 +826,8 @@ public class Http {
             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
             .protocols(Arrays.asList(Protocol.HTTP_1_1))
+            .followRedirects(false)
+            .followSslRedirects(false)
             .addInterceptor(new StatusRetryInterceptor())
             .build();
     try {
