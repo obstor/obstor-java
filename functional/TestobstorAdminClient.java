@@ -37,7 +37,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void addUser() throws Exception {
     String methodName = "addUser()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -49,7 +49,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void addCannedPolicy() throws Exception {
     String methodName = "addCannedPolicy()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -64,7 +64,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void listCannedPolicies() throws Exception {
     String methodName = "listCannedPolicies()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -78,7 +78,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void removeCannedPolicy() throws Exception {
     String methodName = "removeCannedPolicy()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -90,7 +90,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void setPolicy() throws Exception {
     String methodName = "setPolicy()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -102,7 +102,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void getUserInfo() throws Exception {
     String methodName = "getUserInfo()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -116,7 +116,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void listUsers() throws Exception {
     String methodName = "listUsers()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {
@@ -131,7 +131,7 @@ public class TestObstorAdminClient extends TestArgs {
 
   public void deleteUser() throws Exception {
     String methodName = "deleteUser()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
 
     try {

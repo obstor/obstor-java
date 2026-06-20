@@ -3,7 +3,7 @@ import net.obstor.admin.ObstorAdminClient;
 
 public class FunctionalTest {
   public static void runS3Tests(TestArgs args) throws Exception {
-    if (!args.MINT_ENV) System.out.println(">>> Running S3 tests:");
+    if (!args.TESTS_ENV) System.out.println(">>> Running S3 tests:");
     new TestObstorClient(
             args,
             args.IS_QUICK_TEST,
@@ -14,7 +14,7 @@ public class FunctionalTest {
         .runTests();
 
     if (args.automated) {
-      if (!args.MINT_ENV) {
+      if (!args.TESTS_ENV) {
         System.out.println();
         System.out.println(">>> Running S3 tests on TLS endpoint:");
       }
@@ -27,7 +27,7 @@ public class FunctionalTest {
       new TestObstorClient(args, args.IS_QUICK_TEST, client).runTests();
     }
 
-    if (!args.MINT_ENV) {
+    if (!args.TESTS_ENV) {
       System.out.println();
       System.out.println(">>> Running quick tests specific region:");
       new TestObstorClient(
@@ -43,7 +43,7 @@ public class FunctionalTest {
   }
 
   public static void runObstorAdminTests(TestArgs args) throws Exception {
-    if (!args.MINT_ENV) {
+    if (!args.TESTS_ENV) {
       System.out.println();
       System.out.println(">>> Running Obstor admin API tests:");
       new TestObstorAdminClient(
@@ -107,7 +107,7 @@ public class FunctionalTest {
     try {
       runTests(testArgs);
     } catch (Exception e) {
-      if (!testArgs.MINT_ENV) e.printStackTrace();
+      if (!testArgs.TESTS_ENV) e.printStackTrace();
       exitValue = -1;
     } finally {
       if (obstorProcess != null) obstorProcess.destroy();

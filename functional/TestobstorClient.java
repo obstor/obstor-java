@@ -168,7 +168,7 @@ public class TestObstorClient extends TestArgs {
           client.removeBucket(
               RemoveBucketArgs.builder().bucket(args.bucket()).region(args.region()).build());
         }
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         if (!removeCheck) {
           client.removeBucket(
@@ -207,15 +207,15 @@ public class TestObstorClient extends TestArgs {
 
   public void makeBucket() throws Exception {
     String methodName = "makeBucket()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testBucketApiCases(methodName, false, false);
 
     if (isQuickTest) return;
 
     if (!endpoint.contains(".amazonaws.com")) {
-      mintIgnoredLog(methodName, "[region]", System.currentTimeMillis());
-      mintIgnoredLog(methodName, "[region, object lock]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[region]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[region, object lock]", System.currentTimeMillis());
       return;
     }
 
@@ -239,7 +239,7 @@ public class TestObstorClient extends TestArgs {
 
   public void listBuckets() throws Exception {
     String methodName = "listBuckets()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     List<String> expectedBucketNames = new ArrayList<>();
@@ -268,7 +268,7 @@ public class TestObstorClient extends TestArgs {
             expectedBucketNames.containsAll(bucketNames),
             "bucket names differ; expected = " + expectedBucketNames + ", got = " + bucketNames);
 
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         for (String bucketName : expectedBucketNames) {
           client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
@@ -281,21 +281,21 @@ public class TestObstorClient extends TestArgs {
 
   public void bucketExists() throws Exception {
     String methodName = "bucketExists()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testBucketApiCases(methodName, true, false);
   }
 
   public void removeBucket() throws Exception {
     String methodName = "removeBucket()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testBucketApiCases(methodName, false, true);
   }
 
   public void setBucketVersioning() throws Exception {
     String methodName = "setBucketVersioning()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String name = getRandomName();
@@ -316,7 +316,7 @@ public class TestObstorClient extends TestArgs {
                     new VersioningConfiguration(
                         VersioningConfiguration.Status.SUSPENDED, null, null, null))
                 .build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(name).build());
       }
@@ -327,7 +327,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getBucketVersioning() throws Exception {
     String methodName = "getBucketVersioning()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String name = getRandomName();
@@ -371,7 +371,7 @@ public class TestObstorClient extends TestArgs {
                 + VersioningConfiguration.Status.SUSPENDED
                 + ", got = "
                 + config.status());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(name).build());
       }
@@ -430,7 +430,7 @@ public class TestObstorClient extends TestArgs {
             UploadObjectArgs.builder().bucket(bucketName).object(filename).filename(filename);
         if (contentType != null) builder.contentType(contentType);
         client.uploadObject(builder.build());
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         Files.delete(Paths.get(filename));
         client.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(filename).build());
@@ -442,7 +442,7 @@ public class TestObstorClient extends TestArgs {
 
   public void uploadObject() throws Exception {
     String methodName = "uploadObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testUploadObject("[single upload]", createFile1Kb(), null);
 
@@ -479,7 +479,7 @@ public class TestObstorClient extends TestArgs {
               .versionId(objectInfo != null ? objectInfo.versionId() : null)
               .build());
 
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     }
@@ -503,7 +503,7 @@ public class TestObstorClient extends TestArgs {
       for (int i = 0; i < count; i++) threads[i].join();
 
       // All threads are completed.
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     }
@@ -511,7 +511,7 @@ public class TestObstorClient extends TestArgs {
 
   public void putObject() throws Exception {
     String methodName = "putObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testPutObject(
         "[single upload]",
@@ -656,7 +656,7 @@ public class TestObstorClient extends TestArgs {
         null);
 
     if (sseKms == null) {
-      mintIgnoredLog(methodName, null, System.currentTimeMillis());
+      testsIgnoredLog(methodName, null, System.currentTimeMillis());
       return;
     }
 
@@ -726,7 +726,7 @@ public class TestObstorClient extends TestArgs {
                   + stat.userMetadata().get(key));
         }
 
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(args.bucket()).object(args.object()).build());
@@ -738,7 +738,7 @@ public class TestObstorClient extends TestArgs {
 
   public void statObject() throws Exception {
     String methodName = "statObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     String objectName = getRandomName();
 
@@ -783,7 +783,7 @@ public class TestObstorClient extends TestArgs {
     testStatObject("[SSE-S3]", builder.sse(SSE_S3).build(), stat);
 
     if (!isSecureEndpoint) {
-      mintIgnoredLog(methodName, "[SSE-C]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-C]", System.currentTimeMillis());
       return;
     }
 
@@ -791,7 +791,7 @@ public class TestObstorClient extends TestArgs {
     testStatObject("[SSE-C]", builder.sse(SSE_C).build(), stat);
 
     if (sseKms == null) {
-      mintIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
       return;
     }
 
@@ -823,7 +823,7 @@ public class TestObstorClient extends TestArgs {
             sha256sum,
             "checksum mismatch. expected: " + sha256sum + ", got: " + checksum);
       }
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     } finally {
@@ -834,7 +834,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getObject() throws Exception {
     String methodName = "getObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testGetObject(
         "[single upload]",
@@ -950,7 +950,7 @@ public class TestObstorClient extends TestArgs {
       client.putObject(builder.build());
       client.downloadObject(args);
       Files.delete(Paths.get(args.filename()));
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     } finally {
@@ -961,7 +961,7 @@ public class TestObstorClient extends TestArgs {
 
   public void downloadObject() throws Exception {
     String methodName = "downloadObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     String objectName = getRandomName();
     testDownloadObject(
@@ -1082,7 +1082,7 @@ public class TestObstorClient extends TestArgs {
         if (versions > 0) objCount *= versions;
 
         Assertions.assertEquals(i, objCount, "object count; expected=" + objCount + ", got=" + i);
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         if (results != null) removeObjects(bucketName, results);
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
@@ -1093,7 +1093,7 @@ public class TestObstorClient extends TestArgs {
   }
 
   public void listObjects() throws Exception {
-    if (!MINT_ENV) System.out.println("listObjects()");
+    if (!TESTS_ENV) System.out.println("listObjects()");
 
     testListObjects("[bucket]", ListObjectsArgs.builder().bucket(getRandomName()).build(), 3, 0);
 
@@ -1144,7 +1144,7 @@ public class TestObstorClient extends TestArgs {
       if (sse != null) builder.sse(sse);
       client.putObject(builder.build());
       client.removeObject(args);
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     }
@@ -1152,7 +1152,7 @@ public class TestObstorClient extends TestArgs {
 
   public void removeObject() throws Exception {
     String methodName = "removeObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testRemoveObject(
         "[base check]",
@@ -1171,8 +1171,8 @@ public class TestObstorClient extends TestArgs {
         RemoveObjectArgs.builder().bucket(bucketName).object(getRandomName()).build());
 
     if (!isSecureEndpoint) {
-      mintIgnoredLog(methodName, "[SSE-C]", System.currentTimeMillis());
-      mintIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-C]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
       return;
     }
 
@@ -1182,7 +1182,7 @@ public class TestObstorClient extends TestArgs {
         RemoveObjectArgs.builder().bucket(bucketName).object(getRandomName()).build());
 
     if (sseKms == null) {
-      mintIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
       return;
     }
 
@@ -1198,7 +1198,7 @@ public class TestObstorClient extends TestArgs {
     long startTime = System.currentTimeMillis();
     try {
       removeObjects(bucketName, results);
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     } finally {
@@ -1208,7 +1208,7 @@ public class TestObstorClient extends TestArgs {
 
   public void removeObjects() throws Exception {
     String methodName = "removeObjects()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testRemoveObjects("[basic]", createObjects(bucketName, 3, 0));
 
@@ -1312,7 +1312,7 @@ public class TestObstorClient extends TestArgs {
                 .build(),
             expectedChecksum);
 
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -1340,7 +1340,7 @@ public class TestObstorClient extends TestArgs {
             expectedChecksum,
             checksum,
             "content checksum differs; expected = " + expectedChecksum + ", got = " + checksum);
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(args.bucket()).object(args.object()).build());
@@ -1378,7 +1378,7 @@ public class TestObstorClient extends TestArgs {
   }
 
   public void getPresignedObjectUrl() throws Exception {
-    if (!MINT_ENV) System.out.println("getPresignedObjectUrl()");
+    if (!TESTS_ENV) System.out.println("getPresignedObjectUrl()");
 
     testGetPresignedObjectUrlForGet();
     testGetPresignedObjectUrlForPut();
@@ -1386,7 +1386,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getPresignedPostFormData() throws Exception {
     String methodName = "getPresignedPostFormData()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     try {
@@ -1430,7 +1430,7 @@ public class TestObstorClient extends TestArgs {
         }
       }
       client.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -1472,7 +1472,7 @@ public class TestObstorClient extends TestArgs {
                   .ssec(ssec)
                   .build());
         }
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder()
@@ -1518,7 +1518,7 @@ public class TestObstorClient extends TestArgs {
         client.statObject(
             StatObjectArgs.builder().bucket(bucketName).object(srcObjectName + "-copy").build());
 
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(srcBucketName).object(srcObjectName).build());
@@ -1570,7 +1570,7 @@ public class TestObstorClient extends TestArgs {
                 + CUSTOM_CONTENT_TYPE
                 + ", got: "
                 + stat.contentType());
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(srcBucketName).object(srcObjectName).build());
@@ -1618,7 +1618,7 @@ public class TestObstorClient extends TestArgs {
         Assertions.assertFalse(
             stat.userMetadata().containsKey("My-Project"),
             "expected user metadata to be removed in new object");
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(srcBucketName).object(srcObjectName).build());
@@ -1633,7 +1633,7 @@ public class TestObstorClient extends TestArgs {
 
   public void copyObject() throws Exception {
     String methodName = "copyObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     String objectName = getRandomName();
     testCopyObject(
@@ -1725,8 +1725,8 @@ public class TestObstorClient extends TestArgs {
         false);
 
     if (!isSecureEndpoint) {
-      mintIgnoredLog(methodName, "[SSE-C]", System.currentTimeMillis());
-      mintIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-C]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
       return;
     }
 
@@ -1747,7 +1747,7 @@ public class TestObstorClient extends TestArgs {
         false);
 
     if (sseKms == null) {
-      mintIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "[SSE-KMS]", System.currentTimeMillis());
       return;
     }
 
@@ -1770,7 +1770,7 @@ public class TestObstorClient extends TestArgs {
       client.composeObject(args);
       client.removeObject(
           RemoveObjectArgs.builder().bucket(args.bucket()).object(args.object()).build());
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     }
@@ -1900,7 +1900,7 @@ public class TestObstorClient extends TestArgs {
 
   public void composeObject() throws Exception {
     String methodName = "composeObject()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     List<ObjectWriteResponse> createdObjects = new ArrayList<>();
@@ -1968,7 +1968,7 @@ public class TestObstorClient extends TestArgs {
     if (bucketNameWithLock == null) return;
 
     String methodName = "enableObjectLegalHold()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
     ObjectWriteResponse objectInfo = null;
@@ -1986,7 +1986,7 @@ public class TestObstorClient extends TestArgs {
                 .bucket(bucketNameWithLock)
                 .object(objectName)
                 .build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         if (objectInfo != null) {
           client.removeObject(
@@ -2006,7 +2006,7 @@ public class TestObstorClient extends TestArgs {
     if (bucketNameWithLock == null) return;
 
     String methodName = "disableObjectLegalHold()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
     ObjectWriteResponse objectInfo = null;
@@ -2025,7 +2025,7 @@ public class TestObstorClient extends TestArgs {
                 .object(objectName)
                 .build());
         checkObjectLegalHold(bucketNameWithLock, objectName, false);
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         if (objectInfo != null) {
           client.removeObject(
@@ -2036,7 +2036,7 @@ public class TestObstorClient extends TestArgs {
                   .build());
         }
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2046,7 +2046,7 @@ public class TestObstorClient extends TestArgs {
     if (bucketNameWithLock == null) return;
 
     String methodName = "isObjectLegalHoldEnabled()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
     ObjectWriteResponse objectInfo = null;
@@ -2067,7 +2067,7 @@ public class TestObstorClient extends TestArgs {
         Assertions.assertFalse(result, "object legal hold: expected: false, got: " + result);
         checkObjectLegalHold(bucketNameWithLock, objectName, true);
         checkObjectLegalHold(bucketNameWithLock, objectName, false);
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         if (objectInfo != null) {
           client.removeObject(
@@ -2078,7 +2078,7 @@ public class TestObstorClient extends TestArgs {
                   .build());
         }
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2087,7 +2087,7 @@ public class TestObstorClient extends TestArgs {
   public void setObjectLockConfiguration() throws Exception {
     String methodName = "setObjectLockConfiguration()";
     String testTags = "[COMPLIANCE, 10 days]";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2102,7 +2102,7 @@ public class TestObstorClient extends TestArgs {
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
-      mintSuccessLog(methodName, testTags, startTime);
+      testsSuccessLog(methodName, testTags, startTime);
     } catch (Exception e) {
       handleException(methodName, testTags, startTime, e);
     }
@@ -2129,7 +2129,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getObjectLockConfiguration() throws Exception {
     String methodName = "getObjectLockConfiguration()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2148,7 +2148,7 @@ public class TestObstorClient extends TestArgs {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
 
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2156,7 +2156,7 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteObjectLockConfiguration() throws Exception {
     String methodName = "deleteObjectLockConfiguration()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2175,7 +2175,7 @@ public class TestObstorClient extends TestArgs {
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2185,7 +2185,7 @@ public class TestObstorClient extends TestArgs {
     if (bucketNameWithLock == null) return;
 
     String methodName = "setObjectRetention()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -2224,7 +2224,7 @@ public class TestObstorClient extends TestArgs {
                   .build());
         }
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2267,7 +2267,7 @@ public class TestObstorClient extends TestArgs {
     if (bucketNameWithLock == null) return;
 
     String methodName = "getObjectRetention()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -2320,7 +2320,7 @@ public class TestObstorClient extends TestArgs {
                   .build());
         }
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2328,7 +2328,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getBucketPolicy() throws Exception {
     String methodName = "getBucketPolicy()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2347,7 +2347,7 @@ public class TestObstorClient extends TestArgs {
         client.setBucketPolicy(
             SetBucketPolicyArgs.builder().bucket(bucketName).config(policy).build());
         client.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(bucketName).build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2358,7 +2358,7 @@ public class TestObstorClient extends TestArgs {
 
   public void setBucketPolicy() throws Exception {
     String methodName = "setBucketPolicy()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2373,7 +2373,7 @@ public class TestObstorClient extends TestArgs {
         policy = policy.replaceAll("'", "\"");
         client.setBucketPolicy(
             SetBucketPolicyArgs.builder().bucket(bucketName).config(policy).build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2384,7 +2384,7 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteBucketPolicy() throws Exception {
     String methodName = "deleteBucketPolicy()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2402,7 +2402,7 @@ public class TestObstorClient extends TestArgs {
         client.setBucketPolicy(
             SetBucketPolicyArgs.builder().bucket(bucketName).config(policy).build());
         client.deleteBucketPolicy(DeleteBucketPolicyArgs.builder().bucket(bucketName).build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2420,7 +2420,7 @@ public class TestObstorClient extends TestArgs {
 
   public void setBucketLifecycle() throws Exception {
     String methodName = "setBucketLifecycle()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2438,7 +2438,7 @@ public class TestObstorClient extends TestArgs {
                 null,
                 null,
                 null));
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2449,7 +2449,7 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteBucketLifecycle() throws Exception {
     String methodName = "deleteBucketLifecycle()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2471,7 +2471,7 @@ public class TestObstorClient extends TestArgs {
                 null));
         client.deleteBucketLifecycle(
             DeleteBucketLifecycleArgs.builder().bucket(bucketName).build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2482,7 +2482,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getBucketLifecycle() throws Exception {
     String methodName = "getBucketLifecycle()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2555,7 +2555,7 @@ public class TestObstorClient extends TestArgs {
             config.rules().get(0).filter().prefix(),
             "rule.filter().prefix(): expected: <empty>, got: "
                 + config.rules().get(0).filter().prefix());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2568,11 +2568,11 @@ public class TestObstorClient extends TestArgs {
     String methodName = "setBucketNotification()";
     long startTime = System.currentTimeMillis();
     if (sqsArn == null) {
-      mintIgnoredLog(methodName, null, startTime);
+      testsIgnoredLog(methodName, null, startTime);
       return;
     }
 
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     try {
       String bucketName = getRandomName();
@@ -2600,7 +2600,7 @@ public class TestObstorClient extends TestArgs {
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2610,11 +2610,11 @@ public class TestObstorClient extends TestArgs {
     String methodName = "getBucketNotification()";
     long startTime = System.currentTimeMillis();
     if (sqsArn == null) {
-      mintIgnoredLog(methodName, null, startTime);
+      testsIgnoredLog(methodName, null, startTime);
       return;
     }
 
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     try {
       String bucketName = getRandomName();
@@ -2652,7 +2652,7 @@ public class TestObstorClient extends TestArgs {
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2662,11 +2662,11 @@ public class TestObstorClient extends TestArgs {
     String methodName = "deleteBucketNotification()";
     long startTime = System.currentTimeMillis();
     if (sqsArn == null) {
-      mintIgnoredLog(methodName, null, startTime);
+      testsIgnoredLog(methodName, null, startTime);
       return;
     }
 
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     try {
       String bucketName = getRandomName();
@@ -2704,7 +2704,7 @@ public class TestObstorClient extends TestArgs {
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -2712,13 +2712,13 @@ public class TestObstorClient extends TestArgs {
 
   public void listenBucketNotification() throws Exception {
     String methodName = "listenBucketNotification()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String file = createFile1Kb();
     String bucketName = getRandomName();
     CloseableIterator<Result<NotificationRecords>> ci = null;
-    String mintArgs =
+    String testsArgs =
         "prefix=prefix, suffix=suffix, events={\"s3:ObjectCreated:*\", \"s3:ObjectAccessed:*\"}";
     try {
       client.makeBucket(MakeBucketArgs.builder().bucket(bucketName).region(region).build());
@@ -2755,9 +2755,9 @@ public class TestObstorClient extends TestArgs {
         if (found) break;
       }
 
-      mintSuccessLog(methodName, mintArgs, startTime);
+      testsSuccessLog(methodName, testsArgs, startTime);
     } catch (Exception e) {
-      handleException(methodName, mintArgs, startTime, e);
+      handleException(methodName, testsArgs, startTime, e);
     } finally {
       if (ci != null) ci.close();
 
@@ -2773,7 +2773,7 @@ public class TestObstorClient extends TestArgs {
     String sqlExpression = "select * from S3Object";
     String testArgs = "[sqlExpression: " + sqlExpression + ", requestProgress: true]";
 
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -2828,7 +2828,7 @@ public class TestObstorClient extends TestArgs {
       Assertions.assertTrue(
           stats.bytesReturned() == 222,
           "stats.bytesReturned mismatch; expected: 222, got: " + stats.bytesReturned());
-      mintSuccessLog(methodName, testArgs, startTime);
+      testsSuccessLog(methodName, testArgs, startTime);
     } catch (Exception e) {
       handleException(methodName, testArgs, startTime, e);
     } finally {
@@ -2839,7 +2839,7 @@ public class TestObstorClient extends TestArgs {
 
   public void setBucketEncryption() throws Exception {
     String methodName = "setBucketEncryption()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2851,7 +2851,7 @@ public class TestObstorClient extends TestArgs {
                 .bucket(bucketName)
                 .config(SseConfiguration.newConfigWithSseS3Rule())
                 .build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2862,7 +2862,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getBucketEncryption() throws Exception {
     String methodName = "getBucketEncryption()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2890,7 +2890,7 @@ public class TestObstorClient extends TestArgs {
                 + ", got: "
                 + config.rule().sseAlgorithm());
 
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2901,7 +2901,7 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteBucketEncryption() throws Exception {
     String methodName = "deleteBucketEncryption()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2922,7 +2922,7 @@ public class TestObstorClient extends TestArgs {
             client.getBucketEncryption(
                 GetBucketEncryptionArgs.builder().bucket(bucketName).build());
         Assertions.assertNull(config.rule(), "rule: expected: <null>, got: <non-null>");
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2933,7 +2933,7 @@ public class TestObstorClient extends TestArgs {
 
   public void testBucketCors(String methodName, boolean getTest, boolean deleteTest)
       throws Exception {
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -2974,7 +2974,7 @@ public class TestObstorClient extends TestArgs {
         if (deleteTest) {
           client.deleteBucketCors(DeleteBucketCorsArgs.builder().bucket(bucketName).build());
         }
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -2997,7 +2997,7 @@ public class TestObstorClient extends TestArgs {
 
   public void setBucketTags() throws Exception {
     String methodName = "setBucketTags()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -3008,7 +3008,7 @@ public class TestObstorClient extends TestArgs {
         map.put("Project", "Project One");
         map.put("User", "jsmith");
         client.setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).tags(map).build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -3019,7 +3019,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getBucketTags() throws Exception {
     String methodName = "getBucketTags()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -3035,7 +3035,7 @@ public class TestObstorClient extends TestArgs {
         client.setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).tags(map).build());
         tags = client.getBucketTags(GetBucketTagsArgs.builder().bucket(bucketName).build());
         Assertions.assertEquals(map, tags.get(), "tags: expected: " + map + ", got: " + tags.get());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -3046,7 +3046,7 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteBucketTags() throws Exception {
     String methodName = "deleteBucketTags()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String bucketName = getRandomName();
@@ -3063,7 +3063,7 @@ public class TestObstorClient extends TestArgs {
         Tags tags = client.getBucketTags(GetBucketTagsArgs.builder().bucket(bucketName).build());
         Assertions.assertTrue(
             tags.get().isEmpty(), "tags: expected: <empty>" + ", got: " + tags.get());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
       }
@@ -3074,7 +3074,7 @@ public class TestObstorClient extends TestArgs {
 
   public void setObjectTags() throws Exception {
     String methodName = "setObjectTags()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -3089,7 +3089,7 @@ public class TestObstorClient extends TestArgs {
         map.put("User", "jsmith");
         client.setObjectTags(
             SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).tags(map).build());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -3101,7 +3101,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getObjectTags() throws Exception {
     String methodName = "getObjectTags()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -3125,7 +3125,7 @@ public class TestObstorClient extends TestArgs {
             client.getObjectTags(
                 GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
         Assertions.assertEquals(map, tags.get(), "tags: expected: " + map + ", got: " + tags.get());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -3137,7 +3137,7 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteObjectTags() throws Exception {
     String methodName = "deleteObjectTags()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -3161,7 +3161,7 @@ public class TestObstorClient extends TestArgs {
             client.getObjectTags(
                 GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
         Assertions.assertTrue(tags.get().isEmpty(), "tags: expected: <empty>, got: " + tags.get());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -3173,7 +3173,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getObjectAcl() throws Exception {
     String methodName = "getObjectAcl()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -3200,7 +3200,7 @@ public class TestObstorClient extends TestArgs {
                 + AccessControlList.Permission.FULL_CONTROL
                 + ", got: "
                 + policy.accessControlList().grants().get(0).permission());
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -3212,7 +3212,7 @@ public class TestObstorClient extends TestArgs {
 
   public void getObjectAttributes() throws Exception {
     String methodName = "getObjectAttributes()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName = getRandomName();
@@ -3268,7 +3268,7 @@ public class TestObstorClient extends TestArgs {
         Assertions.assertTrue(
             partSize == parts[1][1],
             "partEntry 1: partSize: expected: " + parts[1][1] + ", got: " + partSize);
-        mintSuccessLog(methodName, null, startTime);
+        testsSuccessLog(methodName, null, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -3280,12 +3280,12 @@ public class TestObstorClient extends TestArgs {
 
   public void setBucketReplication() throws Exception {
     String methodName = "setBucketReplication()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     if (REPLICATION_SRC_BUCKET == null
         || REPLICATION_ROLE == null
         || REPLICATION_BUCKET_ARN == null) {
-      mintIgnoredLog(methodName, "", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "", System.currentTimeMillis());
       return;
     }
 
@@ -3318,7 +3318,7 @@ public class TestObstorClient extends TestArgs {
           SetBucketReplicationArgs.builder().bucket(REPLICATION_SRC_BUCKET).config(config).build());
       client.deleteBucketReplication(
           DeleteBucketReplicationArgs.builder().bucket(REPLICATION_SRC_BUCKET).build());
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -3326,12 +3326,12 @@ public class TestObstorClient extends TestArgs {
 
   public void getBucketReplication() throws Exception {
     String methodName = "getBucketReplication()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     if (REPLICATION_SRC_BUCKET == null
         || REPLICATION_ROLE == null
         || REPLICATION_BUCKET_ARN == null) {
-      mintIgnoredLog(methodName, "", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "", System.currentTimeMillis());
       return;
     }
 
@@ -3372,7 +3372,7 @@ public class TestObstorClient extends TestArgs {
       Assertions.assertNotNull(config, "config: expected: <non-null>, got: <null>");
       client.deleteBucketReplication(
           DeleteBucketReplicationArgs.builder().bucket(REPLICATION_SRC_BUCKET).build());
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -3380,12 +3380,12 @@ public class TestObstorClient extends TestArgs {
 
   public void deleteBucketReplication() throws Exception {
     String methodName = "deleteBucketReplication()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     if (REPLICATION_SRC_BUCKET == null
         || REPLICATION_ROLE == null
         || REPLICATION_BUCKET_ARN == null) {
-      mintIgnoredLog(methodName, "", System.currentTimeMillis());
+      testsIgnoredLog(methodName, "", System.currentTimeMillis());
       return;
     }
 
@@ -3424,7 +3424,7 @@ public class TestObstorClient extends TestArgs {
           client.getBucketReplication(
               GetBucketReplicationArgs.builder().bucket(REPLICATION_SRC_BUCKET).build());
       Assertions.assertNull(config, "config: expected: <null>, got: <non-null>");
-      mintSuccessLog(methodName, null, startTime);
+      testsSuccessLog(methodName, null, startTime);
     } catch (Exception e) {
       handleException(methodName, null, startTime, e);
     }
@@ -3462,7 +3462,7 @@ public class TestObstorClient extends TestArgs {
                 StatObjectArgs.builder().bucket(bucketName).object(objectName2).build());
         Assertions.assertEquals(
             1 * KB, stat.size(), "object size: expected: " + KB + ", got: " + stat.size());
-        mintSuccessLog(methodName, testTags, startTime);
+        testsSuccessLog(methodName, testTags, startTime);
       } finally {
         client.removeObject(
             RemoveObjectArgs.builder().bucket(bucketName).object(objectName1).build());
@@ -3476,7 +3476,7 @@ public class TestObstorClient extends TestArgs {
 
   public void uploadSnowballObjects() throws Exception {
     String methodName = "uploadSnowballObjects()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     testUploadSnowballObjects("[no compression]", false);
     testUploadSnowballObjects("[compression]", true);
@@ -3484,7 +3484,7 @@ public class TestObstorClient extends TestArgs {
 
   public void putObjectFanOut() throws Exception {
     String methodName = "putObjectFanOut()";
-    if (!MINT_ENV) System.out.println(methodName);
+    if (!TESTS_ENV) System.out.println(methodName);
 
     long startTime = System.currentTimeMillis();
     String objectName1 = getRandomName();

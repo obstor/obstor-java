@@ -63,7 +63,7 @@ public class TestArgs {
   public static final String CUSTOM_CONTENT_TYPE = "application/javascript";
   public static final ServerSideEncryption SSE_S3 = new ServerSideEncryption.S3();
   public static final ServerSideEncryption.CustomerKey SSE_C;
-  public static final boolean MINT_ENV;
+  public static final boolean TESTS_ENV;
   public static final boolean IS_QUICK_TEST;
   public static final boolean IS_RUN_ON_FAIL;
   public static final Path DATA_FILE_1KB;
@@ -81,17 +81,17 @@ public class TestArgs {
       throw new IllegalStateException(e);
     }
 
-    String mintMode = System.getenv("MINT_MODE");
-    String dataDir = System.getenv("MINT_DATA_DIR");
-    MINT_ENV = mintMode != null;
-    IS_QUICK_TEST = MINT_ENV && !"full".equals(mintMode);
-    IS_RUN_ON_FAIL = MINT_ENV && "1".equals(System.getenv("RUN_ON_FAIL"));
+    String testsMode = System.getenv("TESTS_MODE");
+    String dataDir = System.getenv("TESTS_DATA_DIR");
+    TESTS_ENV = testsMode != null;
+    IS_QUICK_TEST = TESTS_ENV && !"full".equals(testsMode);
+    IS_RUN_ON_FAIL = TESTS_ENV && "1".equals(System.getenv("RUN_ON_FAIL"));
     DATA_FILE_1KB =
-        (MINT_ENV && dataDir != null && !dataDir.isEmpty())
+        (TESTS_ENV && dataDir != null && !dataDir.isEmpty())
             ? Paths.get(dataDir, "datafile-1-kB")
             : null;
     DATA_FILE_6MB =
-        (MINT_ENV && dataDir != null && !dataDir.isEmpty())
+        (TESTS_ENV && dataDir != null && !dataDir.isEmpty())
             ? Paths.get(dataDir, "datafile-6-MB")
             : null;
     REPLICATION_SRC_BUCKET = System.getenv("OBSTOR_JAVA_TEST_REPLICATION_SRC_BUCKET");
@@ -135,7 +135,7 @@ public class TestArgs {
       this.sqsArn = "arn:obstor:sqs::obstorjavatest:webhook";
     } else {
       if ((kmsKeyName = System.getenv("OBSTOR_JAVA_TEST_KMS_KEY_NAME")) == null) {
-        kmsKeyName = System.getenv("MINT_KEY_ID");
+        kmsKeyName = System.getenv("TESTS_KEY_ID");
       }
       this.sqsArn = System.getenv("OBSTOR_JAVA_TEST_SQS_ARN");
       this.endpoint = endpoint;
@@ -185,7 +185,7 @@ public class TestArgs {
 
   /** Create 1 KB temporary file. */
   public static String createFile1Kb() throws IOException {
-    if (MINT_ENV) {
+    if (TESTS_ENV) {
       String filename = getRandomName();
       Files.createSymbolicLink(Paths.get(filename).toAbsolutePath(), DATA_FILE_1KB);
       return filename;
@@ -196,7 +196,7 @@ public class TestArgs {
 
   /** Create 6 MB temporary file. */
   public static String createFile6Mb() throws IOException {
-    if (MINT_ENV) {
+    if (TESTS_ENV) {
       String filename = getRandomName();
       Files.createSymbolicLink(Paths.get(filename).toAbsolutePath(), DATA_FILE_6MB);
       return filename;
@@ -220,20 +220,20 @@ public class TestArgs {
   }
 
   /** Prints a success log entry in JSON format. */
-  public static void mintSuccessLog(String function, String args, long startTime) {
-    if (MINT_ENV) {
+  public static void testsSuccessLog(String function, String args, long startTime) {
+    if (TESTS_ENV) {
       System.out.println(
-          new MintLogger(
+          new TestsLogger(
               function, args, System.currentTimeMillis() - startTime, PASS, null, null, null));
     }
   }
 
   /** Prints a failure log entry in JSON format. */
-  public static void mintFailedLog(
+  public static void testsFailedLog(
       String function, String args, long startTime, String message, String error) {
-    if (MINT_ENV) {
+    if (TESTS_ENV) {
       System.out.println(
-          new MintLogger(
+          new TestsLogger(
               function,
               args,
               System.currentTimeMillis() - startTime,
@@ -245,10 +245,10 @@ public class TestArgs {
   }
 
   /** Prints a ignore log entry in JSON format. */
-  public static void mintIgnoredLog(String function, String args, long startTime) {
-    if (MINT_ENV) {
+  public static void testsIgnoredLog(String function, String args, long startTime) {
+    if (TESTS_ENV) {
       System.out.println(
-          new MintLogger(
+          new TestsLogger(
               function, args, System.currentTimeMillis() - startTime, IGNORED, null, null, null));
     }
   }
@@ -324,13 +324,13 @@ public class TestArgs {
     if (e instanceof ErrorResponseException) {
       int code = ((ErrorResponseException) e).response().code();
       if (code == 405 || code == 501) {
-        mintIgnoredLog(methodName, args, startTime);
+        testsIgnoredLog(methodName, args, startTime);
         return;
       }
     }
 
-    if (MINT_ENV) {
-      mintFailedLog(
+    if (TESTS_ENV) {
+      testsFailedLog(
           methodName,
           args,
           startTime,
